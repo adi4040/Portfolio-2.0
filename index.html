@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aditya Suryawanshi | Portfolio</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Sophisticated Typography -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="leading-normal tracking-normal">
+    <!-- 3D Background Container -->
+    <div id="webgl-container"></div>
+
+    <!-- Header Section -->
+    <header class="fixed w-full z-30 top-0 text-white glassmorphism-nav">
+      <div
+        class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2"
+      >
+        <div class="pl-4 flex items-center">
+          <a
+            class="toggleColour text-white no-underline hover:no-underline font-bold text-2xl lg:text-4xl font-display neon-text-header"
+            href="#"
+          >
+            A.S.
+          </a>
+        </div>
+        <div class="block lg:hidden pr-4">
+          <button
+            id="nav-toggle"
+            class="flex items-center p-1 text-gray-500 hover:text-white"
+          >
+            <svg
+              class="fill-current h-6 w-6"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <title>Menu</title>
+              <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+            </svg>
+          </button>
+        </div>
+        <nav
+          id="nav-content"
+          class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 lg:bg-transparent text-center p-4 lg:p-0 z-20"
+        >
+          <ul class="list-reset lg:flex justify-end flex-1 items-center">
+            <li class="mr-3"><a class="nav-link" href="#about">About</a></li>
+            <li class="mr-3">
+              <a class="nav-link" href="#experience">Experience</a>
+            </li>
+            <li class="mr-3">
+              <a class="nav-link" href="#education">Education</a>
+            </li>
+            <li class="mr-3">
+              <a class="nav-link" href="#projects">Projects</a>
+            </li>
+            <li class="mr-3">
+              <a class="nav-link" href="#achievements">Achievements</a>
+            </li>
+            <li class="mr-3">
+              <a class="nav-link" href="#certifications">Certifications</a>
+            </li>
+            <li class="mr-3"><a class="nav-link" href="#skills">Skills</a></li>
+            <li class="mr-3">
+              <a class="nav-link" href="#contact">Contact</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative z-10 pt-24">
+      <!-- Hero Section -->
+      <section
+        id="hero"
+        class="container mx-auto px-6 text-center md:text-left flex flex-col md:flex-row items-center min-h-screen"
+      >
+        <div class="md:w-3/5">
+          <p class="text-lg text-green-400 mb-2 animate-on-scroll fade-in font-mono">
+            Hi, my name is
+          </p>
+          <h1
+            class="text-4xl md:text-6xl font-bold text-slate-200 font-display animate-on-scroll fade-in delay-1"
+          >
+            Aditya Suryawanshi.
+          </h1>
+          <h2
+            class="text-3xl md:text-5xl font-bold text-slate-400 mt-2 animate-on-scroll fade-in delay-2 font-display"
+            id="typing-container"
+          >
+            <span id="typing-text"></span><span class="typing-cursor"></span>
+          </h2>
+          <p
+            class="mt-4 text-lg text-slate-400 max-w-xl animate-on-scroll fade-in delay-3 font-body"
+          >
+            I'm a tech enthusiast specializing in full-stack development and
+            AI/ML. I have a strong foundation in creating robust applications
+            and a keen interest in IoT.
+          </p>
+          <a
+            href="#projects"
+            class="inline-block mt-8 px-8 py-4 bg-transparent border border-green-400 text-green-400 font-bold rounded-md hover:bg-green-400 hover:text-gray-900 transition-all duration-300 animate-on-scroll fade-in delay-4 font-mono"
+          >
+            Check out my work!
+          </a>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section id="about" class="py-20 animate-on-scroll slide-up">
+        <div class="container mx-auto px-6">
+          <h2 class="section-title text-3xl font-bold mb-12 font-display">About Me</h2>
+          <div class="flex flex-col md:flex-row items-center gap-12">
+            <div class="md:w-2/3 text-slate-400 text-lg font-body">
+              <p>
+                Hello! I'm Aditya, a passionate developer with a knack for
+                turning ideas into tangible, high-performance applications. My
+                journey in tech started with a deep curiosity for how things
+                work, which led me to dive into full-stack development, cloud
+                computing, and machine learning.
+              </p>
+              <p class="mt-4">
+                I am pursuing B.Tech in Computer Science and have
+                hands-on experience with technologies like React, Node.js,
+                Python, and AWS. I thrive on solving complex problems and am
+                always eager to learn new skills. Whether it's building a
+                predictive model or developing a secure web application, I'm
+                driven by the challenge of creating technology that makes a
+                difference.
+              </p>
+              <p class="mt-4">
+                Here are a few technologies I've been working with recently:
+              </p>
+              <ul class="grid grid-cols-2 gap-2 mt-4 font-mono">
+                <li><span class="text-green-400 mr-2">▹</span>React.js</li>
+                <li><span class="text-green-400 mr-2">▹</span>Node.js</li>
+                <li>
+                  <span class="text-green-400 mr-2">▹</span>Python
+                  
+                </li>
+                <li><span class="text-green-400 mr-2">▹</span>AWS & Linux</li>
+                <li>
+                  <span class="text-green-400 mr-2">▹</span>Cybersecurity Tools
+                </li>
+                <li><span class="text-green-400 mr-2">▹</span>MySQL & PHP</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Experience Section -->
+      <section id="experience" class="py-20 animate-on-scroll slide-up">
+        <div class="container mx-auto px-6">
+          <h2 class="section-title text-3xl font-bold mb-12 font-display">
+            Work Experience
+          </h2>
+          <div class="space-y-8">
+            <div class="glassmorphism p-8 rounded-lg card-hover">
+              <h3 class="text-xl font-bold text-slate-200 font-display">
+                AWS & Linux Administrator Intern
+                <span class="text-green-400">@ Arrow Technologies</span>
+              </h3>
+              <p class="text-sm text-slate-400 mb-4 font-mono">June 2023 - July 2023</p>
+              <ul class="list-disc list-inside text-slate-400 space-y-2 font-body">
+                <li>
+                  Improved client-server performance by deploying and managing
+                  applications on AWS EC2 instances.
+                </li>
+                <li>
+                  Utilized Red Hat Linux for system administration, including user
+                  management, package installation, and service configuration.
+                </li>
+                <li>
+                  Hosted a simulated e-commerce website for training purposes,
+                  gaining practical experience in web server administration and
+                  troubleshooting.
+                </li>
+              </ul>
+            </div>
+            
+            <div class="glassmorphism p-8 rounded-lg card-hover">
+              <h3 class="text-xl font-bold text-slate-200 font-display">
+                3 year hands-on experience
+                <span class="text-green-400">@Diploma in Computer Technology</span>
+              </h3>
+              <p class="text-sm text-slate-400 mb-4 font-mono">June 2021 - May 2024</p>
+              <ul class="list-disc list-inside text-slate-400 space-y-2 font-body">
+                <li>
+                  Applied a diverse range of computer technologies to develop and maintain dynamic web applications for clients.
+                </li>
+                <li>
+                  Cultivated strong skills in pressure handling and time/resource allocation by consistently delivering projects with responsive designs and cross-browser compatibility.
+                </li>
+                <li>
+                  Collaborated closely with senior developers, participating in code reviews and learning industry best practices, which deepened my technological expertise.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Education Section -->
+      <!-- Degree -->
+      <section id="education" class="py-20 animate-on-scroll slide-up">
+        <div class="container mx-auto px-6">
+          <h2 class="section-title text-3xl font-bold mb-12 font-display">Education</h2>
+          <div class="glassmorphism p-8 rounded-lg card-hover">
+            <h3 class="text-xl font-bold text-slate-200 font-display">
+             BTech in Computer Science and Engineering (IoT, Cyber Security including Blockchain Technology)
+              <span class="text-green-400">@ Vishwakarma Institute of Information Technology</span>
+            </h3>
+            <p class="text-sm text-slate-400 mb-4 font-mono">2024 - Present</p>
+            <ul class="list-disc list-inside text-slate-400 space-y-2 font-body">
+              <li>CGPA: 9.05/10</li>
+              <li>Relevant Coursework: Data Structures, Algorithms, Database Management, 
+                  Computer Networks, Operating Systems, Software Engineering, Blockchain Technology, Computing in agriculture</li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Diploma -->
+        <div class="container mx-auto px-6">
+          <h2 class="section-title text-3xl font-bold mb-12 font-display"></h2>
+          <div class="glassmorphism p-8 rounded-lg card-hover">
+            <h3 class="text-xl font-bold text-slate-200 font-display">
+             Diploma in Computer Technology
+              <span class="text-green-400">@ K.K Wagh Polytechnic</span>
+            </h3>
+            <p class="text-sm text-slate-400 mb-4 font-mono">2024 - Present</p>
+            <ul class="list-disc list-inside text-slate-400 space-y-2 font-body">
+              <li>Aggregate: 92.97</li>
+              <li>Relevant Coursework: Programming in C/C++, Microcontrollers, Java Programming, Python Programming, DBMS, Data Communications, Data Structures,Computer Networks, Client-Side Scripting(JS), Server-Side Scripting (PHP), Operating Systems, Software Engineering, Software Testing</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      
+
+      <!-- Projects Section -->
+      <section id="projects" class="py-20 animate-on-scroll slide-up">
+        <div class="container mx-auto px-6">
+          <h2 class="section-title text-3xl font-bold mb-12 font-display">My Projects</h2>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Project 1 -->
+            <div
+              class="glassmorphism p-6 rounded-lg card-hover flex flex-col animate-on-scroll slide-up"
+            >
+              <div class="flex-grow">
+                <h3 class="text-xl font-bold text-slate-200 font-display">
+                  Engine Health Prognostics Analysis
+                </h3>
+                <p class="text-slate-400 mt-2 font-body">
+                  Built a machine learning pipeline to predict engine health
+                  using NASA's Turbofan dataset. Applied regression models for
+                  fan speed prediction with 95% accuracy.
+                </p>
+              </div>
+              <div class="mt-4 text-sm text-slate-500 font-mono">
+                <span>Python</span> &middot; <span>Scikit-learn</span> &middot;
+                <span>Pandas</span> &middot; <span>NumPy</span>
+              </div>
+              <div class="mt-4 flex gap-2">
+                <a href="#" class="project-btn github-btn">
+                  <i class="fab fa-github"></i> GitHub
+                </a>
+                <!-- <a href="#" class="project-btn demo-btn">
+                  <i class="fas fa-external-link-alt"></i> Live Demo
+                </a> -->
+              </div>
+            </div>
+            
+            <!-- Project 2 -->
+            <div
+              class="glassmorphism p-6 rounded-lg card-hover flex flex-col animate-on-scroll slide-up delay-1"
+            >
+              <div class="flex-grow">
+                <h3 class="text-xl font-bold text-slate-200 font-display">
+                  Smart Tracking & Recovery System (Contributor)
+                </h3>
+                <p class="text-slate-400 mt-2 font-body">
+                  A comprehensive IoT system using NFC and QR codes to report and recover lost
+                  items, incorporating machine learning for predictive analytics and
+                  real-time tracking capabilities.
+                </p>
+              </div>
+              <div class="mt-4 text-sm text-slate-500 font-mono">
+                <span>IoT</span> &middot; <span>NFC</span> &middot;
+                <span>QR Code</span> &middot; <span>ML</span>
+              </div>
+              <div class="mt-4 flex gap-2">
+                <a href="https://github.com/AdityaVyavhare/Reclaim" class="project-btn github-btn">
+                  <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="#" class="project-btn demo-btn">
+                  <i class="fas fa-external-link-alt"></i> Live Demo
+                </a>
+              </div>
+            </div>
+            
+            <!-- Project 3 -->
+            <div
+              class="glassmorphism p-6 rounded-lg card-hover flex flex-col animate-on-scroll slide-up delay-2"
+            >
+              <div class="flex-grow">
+                <h3 class="text-xl font-bold text-slate-200 font-display">
+                  AI-Powered Attendance System
+                </h3>
+                <p class="text-slate-400 mt-2 font-body">
+                  Developed a seamless, real-time attendance monitoring solution
+                  using AI-powered facial recognition technology with 99% accuracy
+                  and real-time database integration.
+                </p>
+              </div>
+              <div class="mt-4 text-sm text-slate-500 font-mono">
+                <span>Python</span> &middot; <span>OpenCV</span> &middot;
+                <span>Facial Recognition</span>
+              </div>
+              <div class="mt-4 flex gap-2">
+                <a href="#" class="project-btn github-btn">
+                  <i class="fab fa-github"></i> GitHub
+                </a>
+                <!-- <a href="#" class="project-btn demo-btn">
+                  <i class="fas fa-external-link-alt"></i> Live Demo
+                </a> -->
+              </div>
+            </div>
+
+            <!-- Project 4 -->
+            <div
+              class="glassmorphism p-6 rounded-lg card-hover flex flex-col animate-on-scroll slide-up delay-3"
+            >
+              <div class="flex-grow">
+                <h3 class="text-xl font-bold text-slate-200 font-display">
+                  Yet to come....
+                </h3>
+                <p class="text-slate-400 mt-2 font-body">
+                 Description....
+                </p>
+              </div>
+              <div class="mt-4 text-sm text-slate-500 font-mono">
+                <span>React</span> &middot; <span>Node.js</span> &middot;
+                <span>MongoDB</span> &middot; <span>Stripe</span>
+              </div>
+              <div class="mt-4 flex gap-2">
+                <a href="#" class="project-btn github-btn">
+                  <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="#" class="project-btn demo-btn">
+                  <i class="fas fa-external-link-alt"></i> Live Demo
+                </a>
+              </div>
+            </div>
+
+            <!-- Project 5 -->
+            <div
+              class="glassmorphism p-6 rounded-lg card-hover flex flex-col animate-on-scroll slide-up delay-4"
+            >
+              <div class="flex-grow">
+                <h3 class="text-xl font-bold text-slate-200 font-display">
+                  Yet to come..
+                </h3>
+                <p class="text-slate-400 mt-2 font-body">
+                  Description....
+                </p>
+              </div>
+              <div class="mt-4 text-sm text-slate-500 font-mono">
+                <span>Solidity</span> &middot; <span>Web3.js</span> &middot;
+                <span>React</span> &middot; <span>Ethereum</span>
+              </div>
+              <div class="mt-4 flex gap-2">
+                <a href="#" class="project-btn github-btn">
+                  <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="#" class="project-btn demo-btn">
+                  <i class="fas fa-external-link-alt"></i> Live Demo
+                </a>
+              </div>
+            </div>
+
+            <!-- Project 6 -->
+            <div
+              class="glassmorphism p-6 rounded-lg card-hover flex flex-col animate-on-scroll slide-up delay-5"
+            >
+              <div class="flex-grow">
+                <h3 class="text-xl font-bold text-slate-200 font-display">
+                  Yet to come...
+                </h3>
+                <p class="text-slate-400 mt-2 font-body">
+                  Description..
+                </p>
+              </div>
+              <div class="mt-4 text-sm text-slate-500 font-mono">
+                <span>Python</span> &middot; <span>Nmap</span> &middot;
+                <span>Metasploit</span> &middot; <span>SQLMap</span>
+              </div>
+              <div class="mt-4 flex gap-2">
+                <a href="#" class="project-btn github-btn">
+                  <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="#" class="project-btn demo-btn">
+                  <i class="fas fa-external-link-alt"></i> Live Demo
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Achievements Section -->
+      <section id="achievements" class="py-20 animate-on-scroll slide-up">
+        <div class="container mx-auto px-6">
+          <h2 class="section-title text-3xl font-bold mb-12 font-display">Achievements & Awards</h2>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="glassmorphism p-6 rounded-lg card-hover text-center">
+              <div class="text-4xl text-green-400 mb-4">
+                <i class="fas fa-trophy"></i>
+              </div>
+              <h3 class="text-lg font-bold text-slate-200 font-display mb-2">1st Place - Software Domain</h3>
+              <p class="text-slate-400 font-body">Won first place in the S/W domain at Projectioum Leviosa Technical Symposium (JSPM, Pune)</p>
+            </div>
+            
+            <div class="glassmorphism p-6 rounded-lg card-hover text-center">
+              <div class="text-4xl text-green-400 mb-4">
+                <i class="fas fa-award"></i>
+              </div>
+              <h3 class="text-lg font-bold text-slate-200 font-display mb-2">Finalist</h3>
+              <p class="text-slate-400 font-body">Ended up as Finalist at CONVENE 2K25, SKNCOE, Pune</p>
+            </div>
+            
+            <div class="glassmorphism p-6 rounded-lg card-hover text-center">
+              <div class="text-4xl text-green-400 mb-4">
+                <i class="fas fa-award"></i>
+              </div>
+              <h3 class="text-lg font-bold text-slate-200 font-display mb-2">Best Project Award</h3>
+              <p class="text-slate-400 font-body">Received recognition for the best final year project in Computer Science department.</p>
+            </div>
+            
+            <div class="glassmorphism p-6 rounded-lg card-hover text-center">
+              <div class="text-4xl text-green-400 mb-4">
+                <i class="fas fa-code"></i>
+              </div>
+              <h3 class="text-lg font-bold text-slate-200 font-display mb-2">Competitive Programming</h3>
+              <p class="text-slate-400 font-body">Solved 500+ problems on platforms like LeetCode, HackerRank, and Codeforces.</p>
+            </div>
+            
+            <div class="glassmorphism p-6 rounded-lg card-hover text-center">
+              <div class="text-4xl text-green-400 mb-4">
+                <i class="fas fa-users"></i>
+              </div>
+              <h3 class="text-lg font-bold text-slate-200 font-display mb-2">Technical Lead</h3>
+              <p class="text-slate-400 font-body">Led a team of 5 developers in building a campus-wide student management system.</p>
+            </div>
+            
+            <div class="glassmorphism p-6 rounded-lg card-hover text-center">
+              <div class="text-4xl text-green-400 mb-4">
+                <i class="fas fa-graduation-cap"></i>
+              </div>
+              <h3 class="text-lg font-bold text-slate-200 font-display mb-2">Research Publication</h3>
+              <p class="text-slate-400 font-body">Co-authored a research paper on "Machine Learning in IoT Applications" published in IEEE conference.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Certifications Section -->
+      <section id="certifications" class="py-20 animate-on-scroll slide-up">
+        <div class="container mx-auto px-6">
+          <h2 class="section-title text-3xl font-bold mb-12 font-display">Certifications</h2>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="glassmorphism p-6 rounded-lg card-hover">
+              <div class="flex items-center mb-4">
+                <div class="text-3xl text-green-400 mr-4">
+                  <i class="fab fa-aws"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-slate-200 font-display">AWS Solutions Architect</h3>
+                  <p class="text-sm text-slate-400 font-mono">Amazon Web Services</p>
+                </div>
+              </div>
+              <p class="text-slate-400 font-body">Certified in designing distributed systems and implementing cloud solutions.</p>
+            </div>
+            
+            <div class="glassmorphism p-6 rounded-lg card-hover">
+              <div class="flex items-center mb-4">
+                <div class="text-3xl text-green-400 mr-4">
+                  <i class="fas fa-shield-alt"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-slate-200 font-display">CompTIA Security+</h3>
+                  <p class="text-sm text-slate-400 font-mono">CompTIA</p>
+                </div>
+              </div>
+              <p class="text-slate-400 font-body">Certified in cybersecurity fundamentals and network security.</p>
+            </div>
+            
+            <div class="glassmorphism p-6 rounded-lg card-hover">
+              <div class="flex items-center mb-4">
+                <div class="text-3xl text-green-400 mr-4">
+                  <i class="fab fa-google"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-slate-200 font-display">Google Cloud Professional</h3>
+                  <p class="text-sm text-slate-400 font-mono">Google Cloud</p>
+                </div>
+              </div>
+              <p class="text-slate-400 font-body">Certified in Google Cloud Platform architecture and development.</p>
+            </div>
+            
+            <div class="glassmorphism p-6 rounded-lg card-hover">
+              <div class="flex items-center mb-4">
+                <div class="text-3xl text-green-400 mr-4">
+                  <i class="fab fa-microsoft"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-slate-200 font-display">Microsoft Azure Developer</h3>
+                  <p class="text-sm text-slate-400 font-mono">Microsoft</p>
+                </div>
+              </div>
+              <p class="text-slate-400 font-body">Certified in Azure cloud development and deployment.</p>
+            </div>
+            
+            <div class="glassmorphism p-6 rounded-lg card-hover">
+              <div class="flex items-center mb-4">
+                <div class="text-3xl text-green-400 mr-4">
+                  <i class="fab fa-react"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-slate-200 font-display">React Developer</h3>
+                  <p class="text-sm text-slate-400 font-mono">Meta</p>
+                </div>
+              </div>
+              <p class="text-slate-400 font-body">Certified in React.js development and best practices.</p>
+            </div>
+            
+            <div class="glassmorphism p-6 rounded-lg card-hover">
+              <div class="flex items-center mb-4">
+                <div class="text-3xl text-green-400 mr-4">
+                  <i class="fab fa-python"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-slate-200 font-display">Python Programming</h3>
+                  <p class="text-sm text-slate-400 font-mono">Coursera</p>
+                </div>
+              </div>
+              <p class="text-slate-400 font-body">Certified in Python programming and data science applications.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Skills Section -->
+      <section id="skills" class="py-20 animate-on-scroll slide-up">
+        <div class="container mx-auto px-6">
+          <h2 class="section-title text-3xl font-bold mb-12 font-display">
+            Technical Skills
+          </h2>
+          <div class="grid md:grid-cols-2 gap-8">
+            <div>
+              <h3 class="text-lg font-bold text-slate-300 mb-4 font-display">
+                Full-Stack & Programming
+              </h3>
+              <div class="space-y-4">
+                <div class="skill-bar">
+                  <div class="skill-bar-inner" style="width: 90%">
+                    ReactJS/NodeJS
+                  </div>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-bar-inner" style="width: 85%">Python</div>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-bar-inner" style="width: 80%">Java/C++</div>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-bar-inner" style="width: 75%">
+                    PHP/MySQL
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-slate-300 mb-4 font-display">
+                DevOps & Security
+              </h3>
+              <div class="space-y-4">
+                <div class="skill-bar">
+                  <div class="skill-bar-inner" style="width: 80%">
+                    AWS Cloud
+                  </div>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-bar-inner" style="width: 85%">
+                    Linux Administration
+                  </div>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-bar-inner" style="width: 70%">
+                    Cybersecurity (Metasploit, BurpSuite)
+                  </div>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-bar-inner" style="width: 75%">
+                    Networking (CCNA)
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact" class="py-20 animate-on-scroll slide-up">
+        <div class="container mx-auto px-6">
+          <div class="contact-box text-center">
+            <h2 class="text-xl font-mono text-green-400 mb-4">What's Next?</h2>
+            <h3
+              class="font-display text-5xl font-bold mt-2 mb-6 contact-title"
+            >
+              Get In Touch
+            </h3>
+            <p
+              class="text-slate-300 mt-4 max-w-xl mx-auto mb-8 text-lg leading-relaxed font-body"
+            >
+              I'm currently seeking new opportunities and would love to hear
+              from you. Whether you have a question or just want to connect,
+              feel free to reach out!
+            </p>
+            <a
+              href="mailto:adityasuryawanshi4040@gmail.com"
+              class="contact-button inline-block"
+            >
+              Say Hello
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 relative z-10">
+      <div class="container mx-auto p-6 text-center text-slate-400">
+        <div class="flex justify-center space-x-6 mb-4">
+          <a
+            href="https://github.com/adi4040"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-icon"
+            ><i class="fab fa-github fa-2x"></i
+          ></a>
+          <a
+            href="https://www.linkedin.com/in/aditya-suryawanshi-4783832b3"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-icon"
+            ><i class="fab fa-linkedin fa-2x"></i
+          ></a>
+          <a href="mailto:adityasuryawanshi4040@gmail.com" class="social-icon"
+            ><i class="fas fa-envelope fa-2x"></i
+          ></a>
+        </div>
+        <p class="font-body">Designed & Built by Aditya Suryawanshi</p>
+      </div>
+    </footer>
+
+    <!-- Import map for Three.js modules -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/"
+        }
+      }
+    </script>
+    <!-- Custom JS (as a module) -->
+    <script type="module" src="script.js"></script>
+  </body>
+</html>

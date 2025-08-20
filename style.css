@@ -1,0 +1,361 @@
+/* Custom Styles */
+body {
+    background-color: #000000; /* Changed to pure black */
+    color: #ffffff; /* Changed to pure white */
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    overflow-x: hidden; /* Prevents horizontal scrollbar from animations */
+}
+
+#webgl-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none; /* Allows clicking through the canvas */
+}
+
+.font-orbitron {
+    font-family: 'Orbitron', sans-serif;
+}
+
+.font-display {
+    font-family: 'Playfair Display', 'Georgia', serif;
+}
+.font-body {
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+.font-mono {
+    font-family: 'JetBrains Mono', 'Roboto Mono', 'Fira Mono', monospace;
+}
+
+.glassmorphism-nav {
+    background: rgba(0, 0, 0, 0.85); /* Changed to black background */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: top 0.3s;
+}
+
+.glassmorphism {
+    background: rgba(17, 34, 64, 0.75);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* New translucent contact box */
+.contact-box {
+    background: rgba(20, 20, 20, 0.7);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(100, 255, 218, 0.3);
+    border-radius: 20px;
+    padding: 4rem 3rem;
+    margin: 2rem auto;
+    max-width: 800px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.contact-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(100, 255, 218, 0.05) 0%,
+        rgba(100, 255, 218, 0.02) 50%,
+        rgba(100, 255, 218, 0.05) 100%
+    );
+    pointer-events: none;
+    z-index: -1;
+}
+
+.contact-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(100, 255, 218, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    border-color: rgba(100, 255, 218, 0.5);
+}
+
+/* Enhanced glow effect for contact section title */
+.contact-title {
+    background: linear-gradient(135deg, #64ffda, #ffffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px rgba(100, 255, 218, 0.3);
+}
+
+/* Enhanced button styling for contact */
+.contact-button {
+    position: relative;
+    background: transparent;
+    border: 2px solid #64ffda;
+    color: #64ffda;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.contact-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(100, 255, 218, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.contact-button:hover::before {
+    left: 100%;
+}
+
+.contact-button:hover {
+    background: rgba(100, 255, 218, 0.1);
+    border-color: #64ffda;
+    color: #ffffff;
+    box-shadow: 
+        0 0 20px rgba(100, 255, 218, 0.3),
+        inset 0 0 20px rgba(100, 255, 218, 0.1);
+    transform: translateY(-2px);
+}
+
+.neon-text-header {
+    color: #64ffda;
+    text-shadow: 0 0 3px #64ffda;
+}
+
+.nav-link {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    color: #ffffff; /* Changed to white */
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #64ffda;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+
+.nav-link:hover {
+    color: #64ffda;
+}
+
+.nav-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.skill-bar {
+    background-color: #233554;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+/* Enhanced illuminous effect for all text elements */
+.text-slate-200, .text-slate-300, .text-slate-400 {
+    color: #ffffff !important;
+}
+
+/* Special glow effect for project and experience titles */
+.glassmorphism h3 {
+    color: #ffffff;
+    text-shadow: 0 0 15px rgba(100, 255, 218, 0.3);
+    transition: text-shadow 0.3s ease;
+}
+
+.glassmorphism:hover h3 {
+    text-shadow: 0 0 20px rgba(100, 255, 218, 0.5);
+}
+
+/* Enhanced text colors throughout */
+.text-lg, p, li {
+    color: #ffffff;
+}
+
+/* Skill section text enhancement */
+.skill-bar-inner {
+    background-color: #64ffda;
+    color: #000000; /* Keep dark for contrast on cyan background */
+    padding: 8px 12px;
+    font-weight: bold;
+    white-space: nowrap;
+    transition: width 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+    width: 0; /* Initial width */
+    text-shadow: none; /* Remove text shadow for readability */
+}
+
+.card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 30px -15px rgba(2, 12, 27, 0.7);
+}
+
+/* Achievement, Certification, Experience, Education Card Enhancements */
+.glassmorphism.card-hover {
+    border: 1.5px solid #64ffda;
+    box-shadow: 0 8px 32px rgba(100,255,218,0.08), 0 1.5px 0 rgba(100,255,218,0.08);
+}
+.glassmorphism.card-hover:hover {
+    border-color: #fff;
+    box-shadow: 0 16px 48px rgba(100,255,218,0.18), 0 2px 0 rgba(100,255,218,0.18);
+}
+
+.section-title {
+    position: relative;
+    padding-bottom: 15px;
+    background: linear-gradient(135deg, #ffffff, #64ffda, #ffffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite alternate;
+    text-shadow: 0 0 30px rgba(100, 255, 218, 0.4);
+    filter: drop-shadow(0 0 10px rgba(100, 255, 218, 0.3));
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% center;
+        filter: drop-shadow(0 0 10px rgba(100, 255, 218, 0.3));
+    }
+    50% {
+        background-position: 0% center;
+        filter: drop-shadow(0 0 20px rgba(100, 255, 218, 0.5));
+    }
+    100% {
+        background-position: 200% center;
+        filter: drop-shadow(0 0 15px rgba(100, 255, 218, 0.4));
+    }
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 80px;
+    height: 3px;
+    background: #64ffda;
+    border-radius: 5px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1s ease;
+}
+
+.section-title.is-visible::after {
+    transform: scaleX(1);
+}
+
+.social-icon {
+    transition: color 0.3s, transform 0.3s;
+}
+
+.social-icon:hover {
+    color: #64ffda;
+    transform: translateY(-3px);
+}
+
+/* Typing Cursor Animation */
+.typing-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background-color: #64ffda;
+    animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+/* Scroll Animations */
+.animate-on-scroll {
+    opacity: 0;
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.fade-in.is-visible {
+    opacity: 1;
+}
+
+.slide-up {
+    transform: translateY(50px);
+}
+
+.slide-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered animation delays */
+.delay-1 { transition-delay: 100ms; }
+.delay-2 { transition-delay: 200ms; }
+.delay-3 { transition-delay: 300ms; }
+.delay-4 { transition-delay: 400ms; }
+
+/* Project Button Styles */
+.project-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0.5em 1.2em;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    border: 2px solid #64ffda;
+    background: rgba(0,0,0,0.2);
+    color: #64ffda;
+    box-shadow: 0 2px 8px rgba(100,255,218,0.08);
+}
+.project-btn:hover, .project-btn:focus {
+    background: #64ffda;
+    color: #000;
+    box-shadow: 0 4px 16px rgba(100,255,218,0.18);
+    border-color: #64ffda;
+}
+.github-btn i {
+    color: #333;
+}
+.demo-btn i {
+    color: #0077ff;
+}
