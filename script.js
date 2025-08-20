@@ -5,27 +5,82 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 
 document.addEventListener('DOMContentLoaded', function() {
     
-    // --- Mobile Navigation & UI ---
+    // --- Side Navigation Logic ---
+    const sideNav = document.getElementById('side-nav');
     const navToggle = document.getElementById('nav-toggle');
-    const navContent = document.getElementById('nav-content');
-    if (navToggle && navContent) {
-        navToggle.addEventListener('click', () => navContent.classList.toggle('hidden'));
-    }
-
-    const tabsContainer = document.getElementById('tabs-container');
-    if (tabsContainer) {
-        const tabButtons = tabsContainer.querySelectorAll('.tab-button');
-        const tabContents = document.querySelectorAll('.tab-content');
-        tabButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                tabContents.forEach(content => content.classList.remove('active'));
-                document.getElementById(button.dataset.tab).classList.add('active');
-            });
+    const navLinks = document.querySelectorAll('.nav-link-side');
+    const sections = document.querySelectorAll('section[id]');
+    
+    // Toggle navigation on mobile
+    if (navToggle) {
+        navToggle.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                sideNav.classList.toggle('expanded');
+            } else {
+                sideNav.classList.toggle('collapsed');
+            }
         });
     }
-
+    
+    // Active section highlighting
+    function highlightActiveSection() {
+        const scrollY = window.scrollY + 100;
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const sectionId = section.getAttribute('id');
+            
+            if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${sectionId}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }
+    
+    window.addEventListener('scroll', highlightActiveSection);
+    
+    // Smooth scrolling for navigation links
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            
+            if (targetSection) {
+                const offsetTop = targetSection.offsetTop;
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+                
+                // Close nav on mobile after clicking
+                if (window.innerWidth <= 768) {
+                    sideNav.classList.remove('expanded');
+                }
+            }
+        });
+    });
+    
+    // --- Skill Progress Bars Animation ---
+    const skillBars = document.querySelectorAll('.skill-progress');
+    const skillObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const width = entry.target.dataset.width;
+                entry.target.style.setProperty('--width', width + '%');
+                skillObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    skillBars.forEach(bar => skillObserver.observe(bar));
+    
+    // --- Animation Observer ---
     const animationObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -34,9 +89,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }, { threshold: 0.15 });
+    
     document.querySelectorAll('.animate-on-scroll').forEach(el => animationObserver.observe(el));
 
-    // --- Enhanced Three.js Scene Setup ---
+    // --- Enhanced Three.js Scene Setup with Better Visibility ---
     const container = document.getElementById('webgl-container');
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -44,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.2;
+    renderer.toneMappingExposure = 1.5; // Increased exposure for better visibility
     container.appendChild(renderer.domElement);
 
     // --- Post-processing for Bloom ---
@@ -53,29 +109,40 @@ document.addEventListener('DOMContentLoaded', function() {
     composer.addPass(renderPass);
     const bloomPass = new UnrealBloomPass(
         new THREE.Vector2(window.innerWidth, window.innerHeight),
-        1.5, // strength
-        0.5, // radius
-        0.1  // threshold
+        1.8, // Increased strength for more vibrant colors
+        0.6, // Increased radius
+        0.1  // Lower threshold for more bloom
     );
     composer.addPass(bloomPass);
 
     // --- Starfield ---
     const starGeometry = new THREE.BufferGeometry();
     const starVertices = [];
-    for (let i = 0; i < 15000; i++) {
-        starVertices.push((Math.random() - 0.5) * 3000, (Math.random() - 0.5) * 3000, (Math.random() - 0.5) * 2000);
+    for (let i = 0; i < 15000; i++) { // Restored star count
+        starVertices.push(
+            (Math.random() - 0.5) * 3000, 
+            (Math.random() - 0.5) * 3000, 
+            (Math.random() - 0.5) * 2000
+        );
     }
     starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
     const starMaterial = new THREE.PointsMaterial({ 
-        size: 1.5, transparent: true, opacity: 0.7, 
-        blending: THREE.AdditiveBlending, vertexColors: false, color: 0x64748b
+        size: 1.5, 
+        transparent: true, 
+        opacity: 0.8, // Increased opacity for stars
+        blending: THREE.AdditiveBlending, 
+        vertexColors: false, 
+        color: 0x64748b
     });
     const stars = new THREE.Points(starGeometry, starMaterial);
     scene.add(stars);
 
     // --- Infinity Curve Definition ---
     class InfinityCurve extends THREE.Curve {
-        constructor(scale = 1) { super(); this.scale = scale; }
+        constructor(scale = 1) { 
+            super(); 
+            this.scale = scale; 
+        }
         getPoint(t, optionalTarget = new THREE.Vector3()) {
             const a = this.scale;
             const t2 = 2 * Math.PI * t;
@@ -85,11 +152,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    const infinityPath = new InfinityCurve(12);
+    const infinityPath = new InfinityCurve(12); // Back to original size
     
-    // --- New Shader-based Tracer Effect ---
+    // --- Shader-based Tracer Effect with higher opacity ---
     const tubeSegments = 512;
-    const tubeRadius = 0.2;
+    const tubeRadius = 0.2; // Original radius
     const tubeGeometry = new THREE.TubeGeometry(infinityPath, tubeSegments, tubeRadius, 12, false);
     
     const tubeMaterial = new THREE.ShaderMaterial({
@@ -97,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
             time: { value: 0.0 },
             color1: { value: new THREE.Color(0xff0040) },
             color2: { value: new THREE.Color(0x0080ff) },
-            opacity: { value: 1.0 }
+            opacity: { value: 0.95 } // Much higher initial opacity
         },
         vertexShader: `
             varying vec2 vUv;
@@ -113,7 +180,6 @@ document.addEventListener('DOMContentLoaded', function() {
             uniform vec3 color2;
             uniform float opacity;
 
-            // Simplex noise function for turbulence
             vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
             vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
             vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
@@ -142,25 +208,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
             void main() {
                 float progress = fract(vUv.x - time);
-                
-                // Create the glowing head of the trail
                 float head = smoothstep(0.0, 0.15, progress) - smoothstep(0.1, 0.15, progress);
-                
-                // Create the fading tail
                 float tail = smoothstep(0.1, 0.8, progress) - smoothstep(0.7, 0.8, progress);
-                
-                // Combine head and tail for the main shape
-                float combined = head * 2.0 + tail;
-                
-                // Add turbulent noise for a plasma/energy effect
+                float combined = head * 2.0 + tail; // Increased brightness
                 float noise = snoise(vUv * 10.0 + time * 2.0) * 0.1;
                 combined += noise;
-                
-                // Mix colors based on position
                 vec3 color = mix(color1, color2, vUv.x);
-                
-                // Final color and alpha
-                gl_FragColor = vec4(color * combined, combined * 0.8 * opacity);
+                gl_FragColor = vec4(color * combined, combined * 0.9 * opacity); // Higher alpha
             }
         `,
         transparent: true,
@@ -171,13 +225,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const infinityTracer = new THREE.Mesh(tubeGeometry, tubeMaterial);
     scene.add(infinityTracer);
 
-    camera.position.z = 35;
+    camera.position.z = 35; // Original camera position
 
     // --- Animation & Scroll Variables ---
     let scrollY = window.scrollY;
     let targetRotation = { x: 0, y: 0 };
     let currentRotation = { x: 0, y: 0 };
-    let targetOpacity = 1.0;
+    let targetOpacity = 0.95; // Higher base opacity
     
     // --- Scroll and Animation Logic ---
     function updateTargets() {
@@ -187,8 +241,8 @@ document.addEventListener('DOMContentLoaded', function() {
         targetRotation.x = Math.PI / 6 + scrollY * 0.0005;
         targetRotation.y = Math.PI / 8 + scrollY * 0.00025;
 
-        // Fade out after 40% scroll
-        targetOpacity = (scrollPercent > 0.4) ? Math.max(0.0, 1.0 - (scrollPercent - 0.4) / 0.5) : 1.0;
+        // Less aggressive fade out
+        targetOpacity = (scrollPercent > 0.4) ? Math.max(0.3, 0.95 - (scrollPercent - 0.4) / 0.6 * 0.5) : 0.95;
     }
     
     window.addEventListener('scroll', updateTargets);
@@ -201,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const elapsedTime = clock.getElapsedTime();
         
-        // --- Smoothed (Lerped) Rotation and Opacity ---
+        // Smoothed rotation and opacity
         const lerpFactor = 0.05;
         currentRotation.x += (targetRotation.x - currentRotation.x) * lerpFactor;
         currentRotation.y += (targetRotation.y - currentRotation.y) * lerpFactor;
@@ -209,8 +263,8 @@ document.addEventListener('DOMContentLoaded', function() {
         infinityTracer.rotation.set(currentRotation.x, currentRotation.y, 0);
         tubeMaterial.uniforms.opacity.value += (targetOpacity - tubeMaterial.uniforms.opacity.value) * lerpFactor;
 
-        // Update shader time for animation
-        tubeMaterial.uniforms.time.value = elapsedTime * 0.2;
+        // Update shader time
+        tubeMaterial.uniforms.time.value = elapsedTime * 0.2; // Original speed
         
         // Subtle camera movement
         camera.position.x = Math.sin(elapsedTime * 0.1) * 0.5;
@@ -233,10 +287,16 @@ document.addEventListener('DOMContentLoaded', function() {
         composer.setSize(width, height);
     });
 
-    // Typing effect from the original code (no changes)
-    const phrases = [ "I build things for the web.", "I create intelligent solutions.", "I solve complex problems.", "I turn ideas into reality." ];
+    // --- Typing Effect ---
+    const phrases = [
+        "I build things for the web.",
+        "I create intelligent solutions.",
+        "I solve complex problems.",
+        "I turn ideas into reality."
+    ];
     let phraseIndex = 0, charIndex = 0, isDeleting = false;
     const typingElement = document.getElementById('typing-text');
+    
     if (typingElement) {
         function typeEffect() {
             const currentPhrase = phrases[phraseIndex];
@@ -258,15 +318,5 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(typeEffect, typeSpeed);
         }
         typeEffect();
-    }
-
-    const loader = document.getElementById('loader');
-    if (loader) {
-        setTimeout(() => {
-            loader.style.opacity = '0';
-            document.body.classList.remove('is-loading');
-            document.querySelectorAll('.animate-on-load').forEach(el => el.classList.add('loaded'));
-            setTimeout(() => loader.style.display = 'none', 500);
-        }, 1000);
     }
 });
