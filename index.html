@@ -625,6 +625,9 @@
                   500+ Problems Solved
                 </h3>
                 <p class="text-slate-400">LeetCode, HackerRank, Codeforces</p>
+                <button id="leetcode-stats-btn" class="leetcode-stats-button">
+                  View Detailed Statistics
+                </button>
               </div>
             </div>
           </div>
@@ -948,6 +951,115 @@
           <p class="font-body">© 2024 Designed & Built by Aditya Suryawanshi</p>
         </div>
       </footer>
+    </div>
+
+    <!-- LeetCode Stats Modal -->
+    <div id="leetcode-modal" class="leetcode-modal">
+      <div class="leetcode-modal-overlay"></div>
+      <div class="leetcode-modal-card">
+        <div class="leetcode-modal-header">
+          <h2 class="leetcode-modal-title">
+            <i class="fas fa-code"></i>
+            LeetCode Statistics
+          </h2>
+          <button id="leetcode-modal-close" class="leetcode-modal-close">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="leetcode-modal-content">
+          <div id="leetcode-loading" class="leetcode-loading">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Loading LeetCode statistics...</p>
+          </div>
+          <div id="leetcode-content" class="leetcode-content" style="display: none;">
+            <div class="leetcode-profile">
+              <div class="leetcode-avatar">
+                <i class="fas fa-user-circle"></i>
+              </div>
+              <div class="leetcode-info">
+                <h3 id="leetcode-name">Aditya Suryawanshi</h3>
+                <p id="leetcode-username">@ZDt3Xwkjvl</p>
+              </div>
+            </div>
+            
+            <div class="leetcode-stats-grid">
+              <div class="leetcode-stat-card">
+                <div class="stat-icon">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                  <h4>Total Solved</h4>
+                  <p id="leetcode-total-solved">-</p>
+                </div>
+              </div>
+              
+              <div class="leetcode-stat-card">
+                <div class="stat-icon">
+                  <i class="fas fa-trophy"></i>
+                </div>
+                <div class="stat-content">
+                  <h4>Ranking</h4>
+                  <p id="leetcode-ranking">-</p>
+                </div>
+              </div>
+              
+              <div class="leetcode-stat-card">
+                <div class="stat-icon">
+                  <i class="fas fa-star"></i>
+                </div>
+                <div class="stat-content">
+                  <h4>Contribution Points</h4>
+                  <p id="leetcode-contribution">-</p>
+                </div>
+              </div>
+              
+              <div class="leetcode-stat-card">
+                <div class="stat-icon">
+                  <i class="fas fa-calendar"></i>
+                </div>
+                <div class="stat-content">
+                  <h4>Reputation</h4>
+                  <p id="leetcode-reputation">-</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="leetcode-difficulty-breakdown">
+              <h4>Problems by Difficulty</h4>
+              <div class="difficulty-bars">
+                <div class="difficulty-bar">
+                  <span class="difficulty-label">Easy</span>
+                  <div class="difficulty-progress">
+                    <div id="leetcode-easy-bar" class="difficulty-fill easy-fill"></div>
+                  </div>
+                  <span id="leetcode-easy-count" class="difficulty-count">-</span>
+                </div>
+                <div class="difficulty-bar">
+                  <span class="difficulty-label">Medium</span>
+                  <div class="difficulty-progress">
+                    <div id="leetcode-medium-bar" class="difficulty-fill medium-fill"></div>
+                  </div>
+                  <span id="leetcode-medium-count" class="difficulty-count">-</span>
+                </div>
+                <div class="difficulty-bar">
+                  <span class="difficulty-label">Hard</span>
+                  <div class="difficulty-progress">
+                    <div id="leetcode-hard-bar" class="difficulty-fill hard-fill"></div>
+                  </div>
+                  <span id="leetcode-hard-count" class="difficulty-count">-</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="leetcode-recent-activity">
+              <h4>Recent Activity</h4>
+              <div id="leetcode-recent-list" class="recent-list">
+                <!-- Recent submissions will be populated here -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Import map for Three.js modules -->
