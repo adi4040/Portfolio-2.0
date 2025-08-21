@@ -240,25 +240,7 @@ body {
     filter: drop-shadow(0 0 10px rgba(100, 255, 218, 0.3));
 }
 
-/* Brain pulse effect for research section title */
-#research .section-title {
-    animation: brainPulse 2s ease-in-out infinite alternate;
-}
 
-@keyframes brainPulse {
-    0% { 
-        text-shadow: 0 0 30px rgba(100, 255, 218, 0.4);
-        filter: drop-shadow(0 0 10px rgba(100, 255, 218, 0.3));
-    }
-    50% {
-        text-shadow: 0 0 40px rgba(255, 100, 150, 0.5);
-        filter: drop-shadow(0 0 15px rgba(255, 100, 150, 0.4));
-    }
-    100% { 
-        text-shadow: 0 0 35px rgba(100, 255, 218, 0.5);
-        filter: drop-shadow(0 0 20px rgba(100, 255, 218, 0.4));
-    }
-}
 
 @keyframes shimmer {
     0% { 
@@ -748,29 +730,7 @@ body {
 .delay-4 { transition-delay: 400ms; }
 .delay-5 { transition-delay: 500ms; }
 
-/* Brain Animation Enhancement */
-.brain-section-active {
-    background: radial-gradient(ellipse at center, 
-        rgba(100, 255, 218, 0.03) 0%,
-        rgba(255, 100, 150, 0.02) 30%,
-        transparent 70%);
-    animation: brainEnvironment 4s ease-in-out infinite alternate;
-}
 
-@keyframes brainEnvironment {
-    0% {
-        background: radial-gradient(ellipse at center, 
-            rgba(100, 255, 218, 0.03) 0%,
-            rgba(255, 100, 150, 0.02) 30%,
-            transparent 70%);
-    }
-    100% {
-        background: radial-gradient(ellipse at center, 
-            rgba(255, 100, 150, 0.04) 0%,
-            rgba(100, 255, 218, 0.03) 30%,
-            transparent 70%);
-    }
-}
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -876,26 +836,7 @@ body {
     animation: fadeInUp 0.6s ease-out forwards;
 }
 
-/* Enhanced brain glow effects */
-.brain-glow {
-    position: relative;
-}
 
-.brain-glow::before {
-    content: '';
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
-    background: radial-gradient(circle, 
-        rgba(100, 255, 218, 0.1) 0%, 
-        rgba(255, 100, 150, 0.05) 50%, 
-        transparent 100%);
-    border-radius: 50%;
-    animation: brainPulse 3s ease-in-out infinite;
-    z-index: -1;
-}
 
 /* Performance optimizations */
 .gpu-accelerated {
