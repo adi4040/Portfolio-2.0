@@ -28,7 +28,31 @@ function App() {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
+      const wasMobile = isMobile;
+      const newMobile = window.innerWidth <= 768;
+      setIsMobile(newMobile);
+      
+      // Reset glassmorphism effects when switching between mobile and desktop
+      if (wasMobile !== newMobile) {
+        const glassmorphismCards = document.querySelectorAll('.glassmorphism-card');
+        glassmorphismCards.forEach(card => {
+          if (newMobile) {
+            // Reset to transparent on mobile
+            card.style.background = 'transparent';
+            card.style.backgroundColor = 'transparent';
+            card.style.backdropFilter = 'none';
+            card.style.WebkitBackdropFilter = 'none';
+            card.style.border = '1px solid transparent';
+          } else {
+            // Reset to default on desktop
+            card.style.background = '';
+            card.style.backgroundColor = '';
+            card.style.backdropFilter = '';
+            card.style.WebkitBackdropFilter = '';
+            card.style.border = '';
+          }
+        });
+      }
     };
 
     const handleScroll = () => {
@@ -44,6 +68,32 @@ function App() {
           setActiveSection(sectionId);
         }
       });
+
+      // Apply glassmorphism effect on mobile scroll
+      if (isMobile) {
+        const glassmorphismCards = document.querySelectorAll('.glassmorphism-card');
+        glassmorphismCards.forEach(card => {
+          const cardTop = card.getBoundingClientRect().top;
+          const cardBottom = card.getBoundingClientRect().bottom;
+          const windowHeight = window.innerHeight;
+          
+          // Apply glassmorphism when card is in viewport
+          if (cardTop < windowHeight && cardBottom > 0) {
+            card.style.background = 'rgba(255, 255, 255, 0.1)';
+            card.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+            card.style.backdropFilter = 'blur(10px)';
+            card.style.WebkitBackdropFilter = 'blur(10px)';
+            card.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+          } else {
+            // Reset to transparent when not in viewport
+            card.style.background = 'transparent';
+            card.style.backgroundColor = 'transparent';
+            card.style.backdropFilter = 'none';
+            card.style.WebkitBackdropFilter = 'none';
+            card.style.border = '1px solid transparent';
+          }
+        });
+      }
     };
 
     // Trigger animations on page load

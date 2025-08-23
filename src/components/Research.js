@@ -4,20 +4,34 @@ import Spline from '@splinetool/react-spline';
 const Research = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
-  const [currentScene, setCurrentScene] = useState('/scene.splinecode');
+  const [currentScene, setCurrentScene] = useState('');
   const [retryCount, setRetryCount] = useState(0);
   const [hoveredCard, setHoveredCard] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
 
-  const scenes = [
-    '/aibrain.splinecode', // Local file
+  // Use different scenes for mobile vs desktop
+  const desktopScenes = [
+    '/aibrain.splinecode', // Local file for desktop
     'https://prod.spline.design/Jot8lPwZ6KydoILS/scene.splinecode' // Remote URL as fallback
+  ];
+  
+  const mobileScenes = [
+    'https://prod.spline.design/Jot8lPwZ6KydoILS/scene.splinecode', // Remote URL for mobile
+    '/aibrain.splinecode' // Local file as fallback
   ];
 
   useEffect(() => {
     const checkMobile = () => {
       const mobile = window.innerWidth <= 768;
       setIsMobile(mobile);
+      
+      // Set appropriate scene based on device type
+      if (mobile) {
+        setCurrentScene(mobileScenes[0]); // Use remote URL on mobile
+      } else {
+        setCurrentScene(desktopScenes[0]); // Use local file on desktop
+      }
+      
       return mobile;
     };
 
@@ -36,9 +50,11 @@ const Research = () => {
   const handleError = (error) => {
     console.error('Spline scene failed to load from:', currentScene, error);
     
-    if (retryCount < scenes.length - 1) {
+    const currentScenes = isMobile ? mobileScenes : desktopScenes;
+    
+    if (retryCount < currentScenes.length - 1) {
       // Try the next scene
-      const nextScene = scenes[retryCount + 1];
+      const nextScene = currentScenes[retryCount + 1];
       console.log('Retrying with scene:', nextScene);
       setCurrentScene(nextScene);
       setRetryCount(retryCount + 1);
@@ -52,12 +68,13 @@ const Research = () => {
   };
 
   useEffect(() => {
-    // Reset when component mounts
-    setCurrentScene(scenes[0]);
+    // Reset when component mounts or device type changes
+    const currentScenes = isMobile ? mobileScenes : desktopScenes;
+    setCurrentScene(currentScenes[0]);
     setRetryCount(0);
     setIsLoading(true);
     setHasError(false);
-  }, [scenes]);
+  }, [isMobile]);
 
   const handleCardHover = (cardIndex) => {
     if (!isMobile) {
@@ -95,15 +112,14 @@ const Research = () => {
 
   return (
     <section id="research" className="section-content py-20 animate-on-scroll slide-up relative overflow-hidden">
-      {/* Spline Background - Only on Desktop */}
-      {!isMobile && (
-        <div 
-          className="absolute inset-0 z-0"
-          style={{
-            background: 'transparent',
-            backgroundColor: 'transparent'
-          }}
-        >
+      {/* Spline Background - Show on both mobile and desktop */}
+      <div 
+        className="absolute inset-0 z-0"
+        style={{
+          background: 'transparent',
+          backgroundColor: 'transparent'
+        }}
+      >
           {hasError && (
             <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-30 z-10">
               <div className="text-center">
@@ -113,7 +129,7 @@ const Research = () => {
             </div>
           )}
           
-          <Spline
+                    <Spline
             scene={currentScene}
             onLoad={handleLoad}
             onError={handleError}
@@ -121,16 +137,15 @@ const Research = () => {
               width: '100%',
               height: '100%',
               border: 'none',
-              opacity: 0.9, // Increased opacity for better visibility
-              filter: 'blur(0.5px)', // Reduced blur for sharper appearance
+              opacity: isMobile ? 0.6 : 0.9, // Lower opacity on mobile for better performance
+              filter: isMobile ? 'blur(1px)' : 'blur(0.5px)', // More blur on mobile
               pointerEvents: 'none', // Disable mouse interactions
-              transform: 'scale(1.5) translateX(-30%)', // Centered the model
+              transform: isMobile ? 'scale(1.0) translateX(0%)' : 'scale(1.5) translateX(-30%)', // Smaller scale on mobile
               background: 'transparent',
               backgroundColor: 'transparent'
             }}
           />
-        </div>
-      )}
+      </div>
 
       {/* Research Content */}
       <div className="container mx-auto px-6 relative z-10">

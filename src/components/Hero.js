@@ -25,17 +25,18 @@ const Hero = () => {
         setCharIndex(prev => prev + 1);
       }
 
-      let typeSpeed = isDeleting ? 50 : 100;
+      let typeSpeed = isDeleting ? 30 : 80; // Faster typing speeds
       
       if (!isDeleting && charIndex === currentPhrase.length) {
-        typeSpeed = 2000;
+        typeSpeed = 1500; // Reduced pause time
         setIsDeleting(true);
       } else if (isDeleting && charIndex === 0) {
         setIsDeleting(false);
         setPhraseIndex(prev => (prev + 1) % phrases.length);
       }
 
-      setTimeout(typeEffect, typeSpeed);
+      const timer = setTimeout(typeEffect, typeSpeed);
+      return () => clearTimeout(timer);
     };
 
     const timer = setTimeout(typeEffect, 100);
