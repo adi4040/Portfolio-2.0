@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 
 const Background3D = () => {
@@ -9,24 +9,31 @@ const Background3D = () => {
   const starsRef = useRef(null);
   const infinityTracerRef = useRef(null);
   const animationIdRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
     const container = containerRef.current;
-    const isMobile = window.innerWidth <= 768;
+    const checkMobile = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      return mobile;
+    };
+
+    const mobile = checkMobile();
 
     // Scene setup
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({
-      antialias: !isMobile,
+      antialias: !mobile,
       alpha: true,
-      powerPreference: isMobile ? "low-power" : "high-performance"
+      powerPreference: mobile ? "low-power" : "high-performance"
     });
 
-    const pixelRatio = isMobile ? 1 : Math.min(window.devicePixelRatio, 2);
-    const starCount = isMobile ? 5000 : 15000;
+    const pixelRatio = mobile ? 1 : Math.min(window.devicePixelRatio, 2);
+    const starCount = mobile ? 5000 : 15000;
 
     renderer.setPixelRatio(pixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -46,7 +53,7 @@ const Background3D = () => {
     }
     starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
     const starMaterial = new THREE.PointsMaterial({
-      size: isMobile ? 1.2 : 1.5,
+      size: mobile ? 1.2 : 1.5,
       transparent: true,
       opacity: 0.8,
       blending: THREE.AdditiveBlending,
@@ -55,39 +62,31 @@ const Background3D = () => {
     const stars = new THREE.Points(starGeometry, starMaterial);
     scene.add(stars);
 
-    // Infinity Curve Tracer
-    class InfinityCurve extends THREE.Curve {
-      constructor(scale = 1) { 
-        super(); 
-        this.scale = scale; 
+    // Only add infinity curve tracer on desktop
+    let infinityTracer = null;
+    if (!mobile) {
+      // Infinity Curve Tracer
+      class InfinityCurve extends THREE.Curve {
+        constructor(scale = 1) { 
+          super(); 
+          this.scale = scale; 
+        }
+        getPoint(t, target = new THREE.Vector3()) {
+          const a = this.scale;
+          const t2 = 2 * Math.PI * t;
+          const x = a * Math.sqrt(2) * Math.cos(t2) / (Math.sin(t2) ** 2 + 1);
+          const y = a * Math.sqrt(2) * Math.cos(t2) * Math.sin(t2) / (Math.sin(t2) ** 2 + 1);
+          return target.set(x, y, 0);
+        }
       }
-      getPoint(t, target = new THREE.Vector3()) {
-        const a = this.scale;
-        const t2 = 2 * Math.PI * t;
-        const x = a * Math.sqrt(2) * Math.cos(t2) / (Math.sin(t2) ** 2 + 1);
-        const y = a * Math.sqrt(2) * Math.cos(t2) * Math.sin(t2) / (Math.sin(t2) ** 2 + 1);
-        return target.set(x, y, 0);
-      }
-    }
 
-    const infinityPath = new InfinityCurve(isMobile ? 10 : 12);
-    const tubeSegments = isMobile ? 256 : 512;
-    const tubeRadius = isMobile ? 0.15 : 0.2;
-    const tubeGeometry = new THREE.TubeGeometry(infinityPath, tubeSegments, tubeRadius, 12, false);
+      const infinityPath = new InfinityCurve(12);
+      const tubeSegments = 512;
+      const tubeRadius = 0.2;
+      const tubeGeometry = new THREE.TubeGeometry(infinityPath, tubeSegments, tubeRadius, 12, false);
 
-    const tracerBaseOpacity = isMobile ? 0.85 : 0.95;
-    let tubeMaterial;
-
-    if (isMobile) {
-      tubeMaterial = new THREE.MeshBasicMaterial({
-        color: 0xff0080,
-        transparent: true,
-        opacity: tracerBaseOpacity,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false
-      });
-    } else {
-      tubeMaterial = new THREE.ShaderMaterial({
+      const tracerBaseOpacity = 0.95;
+      const tubeMaterial = new THREE.ShaderMaterial({
         uniforms: {
           time: { value: 0.0 },
           color1: { value: new THREE.Color(0xff0040) },
@@ -118,35 +117,40 @@ const Background3D = () => {
         blending: THREE.AdditiveBlending,
         depthWrite: false
       });
+
+      infinityTracer = new THREE.Mesh(tubeGeometry, tubeMaterial);
+      scene.add(infinityTracer);
+
+      camera.position.z = 35;
+      const initialTracerXOffset = 3.5;
+      infinityTracer.position.x = initialTracerXOffset;
+    } else {
+      // Mobile: just stars, no infinity tracer
+      camera.position.z = 40;
     }
 
-    const infinityTracer = new THREE.Mesh(tubeGeometry, tubeMaterial);
-    scene.add(infinityTracer);
-
-    camera.position.z = isMobile ? 40 : 35;
-    const initialTracerXOffset = isMobile ? 2.0 : 3.5;
-    infinityTracer.position.x = initialTracerXOffset;
-
-    // Animation variables
+    // Animation variables (only for desktop)
     let targetRotX = Math.PI / 6;
     let targetRotY = Math.PI / 8;
     let currentRotX = targetRotX;
     let currentRotY = targetRotY;
-    let baseTracerOpacityTarget = tracerBaseOpacity;
-    let currentTracerOpacity = tracerBaseOpacity;
-    const minTracerScale = isMobile ? 0.95 : 1.0;
-    const maxTracerScale = isMobile ? 1.15 : 1.35;
+    let baseTracerOpacityTarget = 0.95;
+    let currentTracerOpacity = 0.95;
+    const minTracerScale = 1.0;
+    const maxTracerScale = 1.35;
     let targetTracerScale = minTracerScale;
     let currentTracerScale = targetTracerScale;
 
-    // Scroll event handler
+    // Scroll event handler (only for desktop)
     const updateScrollTargets = () => {
+      if (mobile) return; // Skip scroll effects on mobile
+
       const scrollY = window.scrollY;
       const maxScroll = Math.max(1, document.body.scrollHeight - window.innerHeight);
       const scrollPercent = scrollY / maxScroll;
 
-      const rxFactor = isMobile ? 0.0003 : 0.0005;
-      const ryFactor = isMobile ? 0.00015 : 0.00025;
+      const rxFactor = 0.0005;
+      const ryFactor = 0.00025;
 
       targetRotX = Math.PI / 6 + scrollY * rxFactor;
       targetRotY = Math.PI / 8 + scrollY * ryFactor;
@@ -154,9 +158,9 @@ const Background3D = () => {
       const fadeStart = 0.4;
       if (scrollPercent > fadeStart) {
         const fade = 1.0 - (scrollPercent - fadeStart) / (0.5);
-        baseTracerOpacityTarget = Math.max(0.2, tracerBaseOpacity * fade);
+        baseTracerOpacityTarget = Math.max(0.2, 0.95 * fade);
       } else {
-        baseTracerOpacityTarget = tracerBaseOpacity;
+        baseTracerOpacityTarget = 0.95;
       }
 
       const scaleRange = maxTracerScale - minTracerScale;
@@ -166,8 +170,10 @@ const Background3D = () => {
       );
     };
 
-    window.addEventListener('scroll', updateScrollTargets);
-    updateScrollTargets();
+    if (!mobile) {
+      window.addEventListener('scroll', updateScrollTargets);
+      updateScrollTargets();
+    }
 
     // Animation loop
     const clock = new THREE.Clock();
@@ -176,24 +182,24 @@ const Background3D = () => {
 
       const t = clock.getElapsedTime();
 
-      // Infinity tracer motion
-      if (!isMobile && tubeMaterial.uniforms) {
-        tubeMaterial.uniforms.time.value = t * 0.2;
+      // Infinity tracer motion (only on desktop)
+      if (!mobile && infinityTracer && infinityTracer.material.uniforms) {
+        infinityTracer.material.uniforms.time.value = t * 0.2;
+
+        const rotLerp = 0.08;
+        currentRotX += (targetRotX - currentRotX) * rotLerp;
+        currentRotY += (targetRotY - currentRotY) * rotLerp;
+        infinityTracer.rotation.x = currentRotX;
+        infinityTracer.rotation.y = currentRotY;
+
+        // Smoothly scale the tracer toward the target scale
+        const scaleLerp = 0.08;
+        currentTracerScale += (targetTracerScale - currentTracerScale) * scaleLerp;
+        infinityTracer.scale.set(currentTracerScale, currentTracerScale, currentTracerScale);
       }
 
-      const rotLerp = 0.08;
-      currentRotX += (targetRotX - currentRotX) * rotLerp;
-      currentRotY += (targetRotY - currentRotY) * rotLerp;
-      infinityTracer.rotation.x = currentRotX;
-      infinityTracer.rotation.y = currentRotY;
-
-      // Smoothly scale the tracer toward the target scale
-      const scaleLerp = 0.08;
-      currentTracerScale += (targetTracerScale - currentTracerScale) * scaleLerp;
-      infinityTracer.scale.set(currentTracerScale, currentTracerScale, currentTracerScale);
-
-      // Stars rotation
-      stars.rotation.y += isMobile ? 0.00005 : 0.0001;
+      // Stars rotation (both mobile and desktop)
+      stars.rotation.y += mobile ? 0.00005 : 0.0001;
 
       camera.lookAt(0, 0, 0);
       renderer.render(scene, camera);
@@ -219,7 +225,7 @@ const Background3D = () => {
     window.addEventListener('resize', resizeHandler);
 
     // Performance: pause when tab hidden on mobile
-    if (isMobile) {
+    if (mobile) {
       const visibilityHandler = () => {
         if (document.hidden) {
           cancelAnimationFrame(animationIdRef.current);
@@ -239,7 +245,9 @@ const Background3D = () => {
 
     // Cleanup function
     return () => {
-      window.removeEventListener('scroll', updateScrollTargets);
+      if (!mobile) {
+        window.removeEventListener('scroll', updateScrollTargets);
+      }
       window.removeEventListener('resize', resizeHandler);
       if (animationIdRef.current) {
         cancelAnimationFrame(animationIdRef.current);
