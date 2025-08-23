@@ -4,14 +4,14 @@ import Spline from '@splinetool/react-spline';
 const Research = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
-  const [currentScene, setCurrentScene] = useState('https://prod.spline.design/Jot8lPwZ6KydoILS/scene.splinecode');
+  const [currentScene, setCurrentScene] = useState('/scene.splinecode');
   const [retryCount, setRetryCount] = useState(0);
   const [hoveredCard, setHoveredCard] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
 
   const scenes = [
-    'https://prod.spline.design/Jot8lPwZ6KydoILS/scene.splinecode', // Primary remote URL
-    'https://prod.spline.design/Jot8lPwZ6KydoILS/scene.splinecode' // Fallback (same URL for now)
+    '/aibrain.splinecode', // Local file
+    'https://prod.spline.design/Jot8lPwZ6KydoILS/scene.splinecode' // Remote URL as fallback
   ];
 
   useEffect(() => {
