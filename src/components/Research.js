@@ -16,7 +16,9 @@ const Research = () => {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      return mobile;
     };
 
     checkMobile();
@@ -93,40 +95,42 @@ const Research = () => {
 
   return (
     <section id="research" className="section-content py-20 animate-on-scroll slide-up relative overflow-hidden">
-      {/* Spline Background */}
-      <div 
-        className="absolute inset-0 z-0"
-        style={{
-          background: 'transparent',
-          backgroundColor: 'transparent'
-        }}
-      >
-        {hasError && (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-30 z-10">
-            <div className="text-center">
-              <i className="fas fa-exclamation-triangle text-red-400 text-2xl mb-2"></i>
-              <p className="text-red-400 font-semibold text-sm">3D Background Failed</p>
-            </div>
-          </div>
-        )}
-        
-        <Spline
-          scene={currentScene}
-          onLoad={handleLoad}
-          onError={handleError}
+      {/* Spline Background - Only on Desktop */}
+      {!isMobile && (
+        <div 
+          className="absolute inset-0 z-0"
           style={{
-            width: '100%',
-            height: '100%',
-            border: 'none',
-            opacity: 0.9, // Increased opacity for better visibility
-            filter: 'blur(0.5px)', // Reduced blur for sharper appearance
-            pointerEvents: 'none', // Disable mouse interactions
-            transform: 'scale(1.5) translateX(-30%)', // Centered the model
             background: 'transparent',
             backgroundColor: 'transparent'
           }}
-        />
-      </div>
+        >
+          {hasError && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-30 z-10">
+              <div className="text-center">
+                <i className="fas fa-exclamation-triangle text-red-400 text-2xl mb-2"></i>
+                <p className="text-red-400 font-semibold text-sm">3D Background Failed</p>
+              </div>
+            </div>
+          )}
+          
+          <Spline
+            scene={currentScene}
+            onLoad={handleLoad}
+            onError={handleError}
+            style={{
+              width: '100%',
+              height: '100%',
+              border: 'none',
+              opacity: 0.9, // Increased opacity for better visibility
+              filter: 'blur(0.5px)', // Reduced blur for sharper appearance
+              pointerEvents: 'none', // Disable mouse interactions
+              transform: 'scale(1.5) translateX(-30%)', // Centered the model
+              background: 'transparent',
+              backgroundColor: 'transparent'
+            }}
+          />
+        </div>
+      )}
 
       {/* Research Content */}
       <div className="container mx-auto px-6 relative z-10">

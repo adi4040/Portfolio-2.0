@@ -744,6 +744,149 @@ body {
     .social-links-vertical a:hover {
         transform: none;
     }
+    
+    /* Reduce animations on mobile for better performance */
+    .animate-on-scroll {
+        transition-duration: 0.4s;
+    }
+    
+    /* Disable hover effects on mobile */
+    .project-card:hover,
+    .achievement-card:hover,
+    .cert-card:hover,
+    .volunteer-card:hover {
+        transform: none;
+        box-shadow: none;
+    }
+    
+    /* Optimize scrolling performance */
+    .section-content {
+        will-change: auto;
+    }
+    
+    /* Reduce blur effects on mobile for better performance */
+    .glassmorphism-card {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+}
+
+/* Mobile-specific performance optimizations */
+@media (max-width: 768px) {
+    /* Reduce animation complexity on mobile */
+    .section-title {
+        animation: none;
+        background: linear-gradient(135deg, #ffffff, #64ffda, #ffffff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    /* Optimize 3D background for mobile */
+    #webgl-container {
+        filter: blur(2px);
+        opacity: 0.9;
+    }
+    
+    /* Reduce transition durations for smoother mobile experience */
+    .glassmorphism-card {
+        transition: all 0.2s ease;
+    }
+    
+    /* Optimize mobile navigation performance */
+    .mobile-nav {
+        will-change: transform;
+    }
+    
+    .mobile-nav-overlay {
+        will-change: opacity;
+    }
+    
+    /* Reduce shadow complexity on mobile */
+    .glassmorphism-card {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Optimize text rendering on mobile */
+    .section-title,
+    .hero-content h1,
+    .hero-content h2 {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* Reduce motion for better mobile performance */
+    .typing-cursor {
+        animation: blink 1s infinite;
+    }
+    
+    /* Optimize grid layouts for mobile */
+    .grid {
+        gap: 1rem;
+    }
+    
+    /* Reduce padding on mobile for better space usage */
+    .section-content {
+        padding: 1rem;
+    }
+    
+    /* Optimize mobile header performance */
+    .mobile-header {
+        will-change: transform;
+        transform: translateZ(0);
+    }
+}
+
+/* High performance mobile optimizations */
+@media (max-width: 480px) {
+    /* Further reduce animations on small screens */
+    .animate-on-scroll {
+        transition-duration: 0.3s;
+    }
+    
+    /* Optimize card rendering */
+    .glassmorphism-card {
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+    
+    /* Reduce star count for better mobile performance */
+    #webgl-container {
+        filter: blur(3px);
+        opacity: 0.85;
+    }
+    
+    /* Optimize mobile navigation */
+    .mobile-nav-link {
+        transition: background-color 0.2s ease;
+    }
+    
+    /* Reduce text shadow complexity */
+    .section-title {
+        text-shadow: 0 0 20px rgba(100, 255, 218, 0.3);
+    }
+}
+
+/* Ultra-low power mode for older mobile devices */
+@media (max-width: 360px) {
+    /* Disable complex animations on very small screens */
+    .animate-on-scroll {
+        transition: opacity 0.3s ease;
+        transform: none;
+    }
+    
+    /* Simplify glassmorphism effect */
+    .glassmorphism-card {
+        background: rgba(20, 20, 30, 0.9);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+    }
+    
+    /* Reduce 3D background complexity */
+    #webgl-container {
+        filter: blur(4px);
+        opacity: 0.8;
+    }
 }
 
 /* High contrast mode support */
