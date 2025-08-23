@@ -231,6 +231,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   camera.position.z = isMobile ? 40 : 35;
 
+  // Position the model slightly to the right on initial load (X-axis only)
+  const initialTracerXOffset = isMobile ? 2.0 : 3.5;
+  infinityTracer.position.x = initialTracerXOffset;
+
   // Scroll-reactive rotation and base opacity for the tracer
   let targetRotX = Math.PI / 6;
   let targetRotY = Math.PI / 8;
@@ -239,6 +243,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   let baseTracerOpacityTarget = tracerBaseOpacity;
   let currentTracerOpacity = tracerBaseOpacity;
+
+  // Scroll-reactive scale targets for the tracer (grow when scrolling down)
+  const minTracerScale = isMobile ? 0.95 : 1.0;
+  const maxTracerScale = isMobile ? 1.15 : 1.35;
+  let targetTracerScale = minTracerScale;
+  let currentTracerScale = targetTracerScale;
 
   function updateScrollTargets() {
     const scrollY = window.scrollY;
@@ -258,6 +268,13 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
       baseTracerOpacityTarget = tracerBaseOpacity;
     }
+
+    // Update scale target based on scroll position (down -> bigger, up -> smaller)
+    const scaleRange = maxTracerScale - minTracerScale;
+    targetTracerScale = Math.max(
+      minTracerScale,
+      Math.min(maxTracerScale, minTracerScale + scaleRange * scrollPercent)
+    );
   }
   window.addEventListener('scroll', updateScrollTargets);
   updateScrollTargets();
@@ -295,6 +312,11 @@ document.addEventListener('DOMContentLoaded', function() {
     currentRotY += (targetRotY - currentRotY) * rotLerp;
     infinityTracer.rotation.x = currentRotX;
     infinityTracer.rotation.y = currentRotY;
+
+    // Smoothly scale the tracer toward the target scale
+    const scaleLerp = 0.08;
+    currentTracerScale += (targetTracerScale - currentTracerScale) * scaleLerp;
+    infinityTracer.scale.set(currentTracerScale, currentTracerScale, currentTracerScale);
 
     // Stars
     stars.rotation.y += isMobile ? 0.00005 : 0.0001;
@@ -365,6 +387,62 @@ document.addEventListener('DOMContentLoaded', function() {
       if (document.hidden) cancelAnimationFrame(animationId)
       else animate();
     });
+  }
+
+  // --- Skills Progress Bar Animation ---
+  function initializeSkillProgressBars() {
+    const skillProgressBars = document.querySelectorAll('.skill-progress');
+    
+    skillProgressBars.forEach(progressBar => {
+      const width = progressBar.getAttribute('data-width');
+      if (width) {
+        // Set the CSS custom property for the progress bar width
+        progressBar.style.setProperty('--width', `${width}%`);
+        
+        // Add a small delay to trigger the animation when the element becomes visible
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              // Trigger the animation by temporarily resetting and then setting the width
+              progressBar.style.setProperty('--width', '0%');
+              setTimeout(() => {
+                progressBar.style.setProperty('--width', `${width}%`);
+              }, 100);
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+        
+        observer.observe(progressBar);
+      }
+    });
+  }
+
+  // Initialize skill progress bars and fetch LeetCode data when the page loads
+  // Note: We're already inside DOMContentLoaded, so call directly.
+  setTimeout(initializeSkillProgressBars, 500);
+  // Defer initial fetch to end of current tick so modal DOM refs are initialized
+  setTimeout(() => {
+    try {
+      fetchLeetCodeData();
+    } catch (_) {
+      // no-op
+    }
+  }, 0);
+
+  // Also initialize when the skills section becomes visible
+  const skillsSection = document.getElementById('skills');
+  if (skillsSection) {
+    const skillsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          initializeSkillProgressBars();
+          skillsObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    skillsObserver.observe(skillsSection);
   }
 
   // --- LeetCode Modal Functionality ---
@@ -611,6 +689,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
+  // Expose for inline Retry button inside modal error content
+  // (module scope prevents global by default)
+  // eslint-disable-next-line no-undef
+  window.fetchLeetCodeData = fetchLeetCodeData;
+
   // Background fetch for offline mode
   async function fetchFreshDataInBackground(username, cacheKey) {
     try {
@@ -854,6 +937,12 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Statistics to update:', { totalSolved, ranking, contributionPoints, reputation }); // Debug log
 
         updateElementText('leetcode-total-solved', totalSolved);
+
+        // Update the Problems Solved heading with exact total solved count
+        const solvedHeading = document.getElementById('leetcode-problems-solved-heading');
+        if (solvedHeading) {
+          solvedHeading.textContent = `${totalSolved} Problems Solved`;
+        }
         updateElementText('leetcode-ranking', ranking);
         updateElementText('leetcode-contribution', contributionPoints);
         updateElementText('leetcode-reputation', reputation);
@@ -890,6 +979,14 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Helper functions
+  function formatProblemsSolvedBucket(total) {
+    if (!Number.isFinite(total) || total <= 0) return '0';
+    const maxCap = 1000;
+    const capped = Math.min(total, maxCap);
+    const bucket = Math.floor(capped / 10) * 10;
+    if (bucket < 10) return '0';
+    return `${bucket}+`;
+  }
   function updateElementText(elementId, value) {
     const element = document.getElementById(elementId);
     if (element) {
@@ -930,7 +1027,7 @@ document.addEventListener('DOMContentLoaded', function() {
               <br>
               <strong>Acceptance Rate:</strong> ${acceptanceRate}
               <br>
-              <a href="https://leetcode.com/${data.username}/" 
+              <a href="https://leetcode.com/${LEETCODE_CONFIG.username}/" 
                  target="_blank" 
                  rel="noopener noreferrer"
                  style="color: #3B82F6; text-decoration: none;">

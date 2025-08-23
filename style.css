@@ -32,7 +32,7 @@ body {
     height: 100vh;
     z-index: 0;
     pointer-events: none;
-    filter: blur(0.5px);
+    filter: blur(3px);
     opacity: 0.95;
 }
 
@@ -896,6 +896,8 @@ body {
 .leetcode-modal.active {
     display: flex;
     opacity: 1;
+    justify-content: flex-end;
+    align-items: stretch;
 }
 
 .leetcode-modal-overlay {
@@ -904,27 +906,36 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    opacity: 0;
+    transition: opacity 0.4s ease, background 0.1s ease, backdrop-filter 0.4s ease;
+}
+
+.leetcode-modal.active .leetcode-modal-overlay {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 .leetcode-modal-card {
     position: relative;
     width: 90%;
     max-width: 600px;
-    max-height: 90vh;
-    margin: auto;
+    height: 100vh;
+    margin: 0 0 0 auto;
     background: rgba(20, 20, 30, 0.95);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(100, 255, 218, 0.3);
-    border-radius: 16px;
+    border-radius: 16px 0 0 16px;
     box-shadow: 
         0 20px 40px rgba(0, 0, 0, 0.5),
         0 0 20px rgba(100, 255, 218, 0.2);
     transform: translateX(100%);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 1.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     overflow: hidden;
 }
 
@@ -969,7 +980,7 @@ body {
 
 .leetcode-modal-content {
     padding: 2rem;
-    max-height: calc(90vh - 100px);
+    max-height: calc(100vh - 100px);
     overflow-y: auto;
 }
 
@@ -1165,7 +1176,10 @@ body {
 @media (max-width: 768px) {
     .leetcode-modal-card {
         width: 95%;
-        margin: 1rem auto;
+        margin: 0 0 0 auto;
+        height: 100vh;
+        max-width: none;
+        border-radius: 0;
     }
     
     .leetcode-modal-content {
