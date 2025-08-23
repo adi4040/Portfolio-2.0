@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Aditya Suryawanshi's Portfolio - React Version",
   "private": true,
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "@splinetool/react-spline": "^4.1.0",
     "@splinetool/runtime": "^1.10.51",
