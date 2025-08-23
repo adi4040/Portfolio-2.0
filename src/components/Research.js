@@ -112,14 +112,15 @@ const Research = () => {
 
   return (
     <section id="research" className="section-content py-20 animate-on-scroll slide-up relative overflow-hidden">
-      {/* Spline Background - Show on both mobile and desktop */}
-      <div 
-        className="absolute inset-0 z-0"
-        style={{
-          background: 'transparent',
-          backgroundColor: 'transparent'
-        }}
-      >
+            {/* Spline Background - Only on Desktop */}
+      {!isMobile && (
+        <div 
+          className="absolute inset-0 z-0"
+          style={{
+            background: 'transparent',
+            backgroundColor: 'transparent'
+          }}
+        >
           {hasError && (
             <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-30 z-10">
               <div className="text-center">
@@ -129,7 +130,7 @@ const Research = () => {
             </div>
           )}
           
-                    <Spline
+          <Spline
             scene={currentScene}
             onLoad={handleLoad}
             onError={handleError}
@@ -137,15 +138,16 @@ const Research = () => {
               width: '100%',
               height: '100%',
               border: 'none',
-              opacity: isMobile ? 0.6 : 0.9, // Lower opacity on mobile for better performance
-              filter: isMobile ? 'blur(1px)' : 'blur(0.5px)', // More blur on mobile
-              pointerEvents: 'none', // Disable mouse interactions
-              transform: isMobile ? 'scale(1.0) translateX(0%)' : 'scale(1.5) translateX(-30%)', // Smaller scale on mobile
+              opacity: 0.9,
+              filter: 'blur(0.5px)',
+              pointerEvents: 'none',
+              transform: 'scale(1.5) translateX(-30%)',
               background: 'transparent',
               backgroundColor: 'transparent'
             }}
           />
-      </div>
+        </div>
+      )}
 
       {/* Research Content */}
       <div className="container mx-auto px-6 relative z-10">
