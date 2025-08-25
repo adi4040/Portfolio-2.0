@@ -17,7 +17,7 @@ const Achievements = () => {
           Achievements & Awards
         </h2>
         <div className="achievements-grid">
-          <div className="achievement-card glassmorphism-card">
+          <div className="achievement-card glassmorphism-card animate-on-scroll fade-in">
             <div className="achievement-icon gold">
               <i className="fas fa-trophy"></i>
             </div>
@@ -29,7 +29,7 @@ const Achievements = () => {
             </p>
           </div>
 
-          <div className="achievement-card glassmorphism-card">
+          <div className="achievement-card glassmorphism-card animate-on-scroll fade-in">
             <div className="achievement-icon silver">
               <i className="fas fa-medal"></i>
             </div>
@@ -47,7 +47,7 @@ const Achievements = () => {
             <p className="text-slate-400">Computer Science Department</p>
           </div> */}
 
-          <div className="achievement-card glassmorphism-card">
+          <div className="achievement-card glassmorphism-card animate-on-scroll fade-in">
             <div className="achievement-icon">
               <i className="fas fa-code"></i>
             </div>

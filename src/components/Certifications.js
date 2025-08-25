@@ -30,7 +30,7 @@ const Certifications = () => {
         </h2>
         <div className="certifications-grid">
           {certifications.map((cert, index) => (
-            <div key={index} className="cert-card glassmorphism-card">
+            <div key={index} className="cert-card glassmorphism-card animate-on-scroll fade-in">
               <div className="cert-header">
                 <i className={cert.icon}></i>
                 <div>

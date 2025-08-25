@@ -34,9 +34,9 @@ const Projects = () => {
         <h2 className="section-title text-3xl font-bold mb-12 font-display">
           Featured Projects
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 projects-grid">
           {projects.map((project) => (
-            <div key={project.id} className="project-card glassmorphism-card p-6">
+            <div key={project.id} className="project-card glassmorphism-card p-6 animate-on-scroll fade-in">
               <div className="project-icon mb-4">
                 <i className={project.icon}></i>
               </div>

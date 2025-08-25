@@ -1,21 +1,30 @@
 import React, { useState, useEffect } from 'react';
 
+// Keep phrases outside component to avoid re-creating array and breaking typing effect
+const TYPING_PHRASES = [
+  "I build things for the web.",
+  "I create intelligent solutions.",
+  "I solve complex problems.",
+  "I turn ideas into reality."
+];
+
 const Hero = () => {
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
-  const phrases = [
-    "I build things for the web.",
-    "I create intelligent solutions.",
-    "I solve complex problems.",
-    "I turn ideas into reality."
-  ];
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= 768);
+    onResize();
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   useEffect(() => {
     const typeEffect = () => {
-      const currentPhrase = phrases[phraseIndex];
+      const currentPhrase = TYPING_PHRASES[phraseIndex];
       
       if (isDeleting) {
         setDisplayText(currentPhrase.substring(0, charIndex - 1));
@@ -32,7 +41,7 @@ const Hero = () => {
         setIsDeleting(true);
       } else if (isDeleting && charIndex === 0) {
         setIsDeleting(false);
-        setPhraseIndex(prev => (prev + 1) % phrases.length);
+        setPhraseIndex(prev => (prev + 1) % TYPING_PHRASES.length);
       }
 
       const timer = setTimeout(typeEffect, typeSpeed);
@@ -41,12 +50,12 @@ const Hero = () => {
 
     const timer = setTimeout(typeEffect, 100);
     return () => clearTimeout(timer);
-  }, [phraseIndex, charIndex, isDeleting, phrases]);
+  }, [phraseIndex, charIndex, isDeleting]);
 
   return (
     <section id="home" className="section-content min-h-screen flex items-center">
       <div className="container mx-auto px-6">
-        <div className="hero-content">
+        <div className={`hero-content ${isMobile ? 'hero-card glassmorphism-card animate-on-scroll fade-in' : ''}`}>
           <p className="text-lg text-green-400 mb-2 animate-on-scroll fade-in font-mono">
             Hi, my name is
           </p>
@@ -57,13 +66,13 @@ const Hero = () => {
             <span>{displayText}</span>
             <span className="typing-cursor"></span>
           </h2>
-          <p className="mt-4 text-lg text-slate-400 max-w-xl animate-on-scroll fade-in delay-3 font-body">
+          <p className="mt-4 text-lg text-slate-400 max-w-xl animate-on-scroll fade-in delay-3 font-body hero-intro">
             I'm a tech enthusiast specializing in full-stack development and
             AI/ML. I have a strong foundation in creating robust
             applications and a keen interest in IoT and blockchain
             technology.
           </p>
-          <div className="mt-8 flex gap-4 animate-on-scroll fade-in delay-4">
+          <div className="mt-8 flex gap-4 animate-on-scroll fade-in delay-4 hero-cta-wrap">
             <a href="#projects" className="cta-button primary">
               View My Work
             </a>

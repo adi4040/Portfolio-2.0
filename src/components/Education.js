@@ -7,8 +7,8 @@ const Education = () => {
         <h2 className="section-title text-3xl font-bold mb-12 font-display">
           Education
         </h2>
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="glassmorphism-card p-8">
+        <div className="grid md:grid-cols-2 gap-8 education-grid">
+          <div className="glassmorphism-card p-8 animate-on-scroll fade-in">
             <div className="flex items-start">
               <div className="education-icon">
                 <i className="fas fa-university"></i>
@@ -31,7 +31,7 @@ const Education = () => {
             </div>
           </div>
 
-          <div className="glassmorphism-card p-8">
+          <div className="glassmorphism-card p-8 animate-on-scroll fade-in">
             <div className="flex items-start">
               <div className="education-icon">
                 <i className="fas fa-graduation-cap"></i>

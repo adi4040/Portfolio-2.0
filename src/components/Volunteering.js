@@ -30,7 +30,7 @@ const Volunteering = () => {
         </h2>
         <div className="volunteer-grid">
           {volunteerActivities.map((activity, index) => (
-            <div key={index} className="volunteer-card glassmorphism-card p-6">
+            <div key={index} className="volunteer-card glassmorphism-card p-6 animate-on-scroll fade-in">
               <i className={`${activity.icon} text-green-400 text-3xl mb-4`}></i>
               <h3 className="text-xl font-bold text-slate-200">
                 {activity.title}

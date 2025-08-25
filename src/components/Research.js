@@ -156,7 +156,7 @@ const Research = () => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div 
-            className="glassmorphism-card p-8 transition-all duration-300 ease-in-out"
+            className={`glassmorphism-card p-8 transition-all duration-300 ease-in-out ${isMobile ? 'animate-on-scroll fade-in' : ''}`}
             style={getCardStyle(0)}
             onMouseEnter={() => handleCardHover(0)}
             onMouseLeave={handleCardLeave}
@@ -181,7 +181,7 @@ const Research = () => {
           </div>
 
           <div 
-            className="glassmorphism-card p-8 transition-all duration-300 ease-in-out"
+            className={`glassmorphism-card p-8 transition-all duration-300 ease-in-out ${isMobile ? 'animate-on-scroll fade-in' : ''}`}
             style={getCardStyle(1)}
             onMouseEnter={() => handleCardHover(1)}
             onMouseLeave={handleCardLeave}

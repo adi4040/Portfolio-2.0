@@ -8,7 +8,7 @@ const Patents = () => {
           Patents & Innovations
         </h2>
         <div className="patents-grid">
-          <div className="glassmorphism-card p-8 text-center">
+          <div className="glassmorphism-card p-8 text-center animate-on-scroll fade-in">
             <div className="patent-icon">
               <i className="fas fa-lightbulb"></i>
             </div>

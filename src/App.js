@@ -94,19 +94,23 @@ function App() {
           }
         });
       }
-    };
 
-    // Trigger animations on page load
-    const triggerAnimations = () => {
+      // Trigger fade-in for any animate-on-scroll elements when in viewport
       const animatedElements = document.querySelectorAll('.animate-on-scroll');
       animatedElements.forEach(element => {
-        element.classList.add('fade-in');
+        const rect = element.getBoundingClientRect();
+        const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+        if (rect.top < windowHeight * 0.9 && rect.bottom > 0) {
+          element.classList.add('fade-in');
+        }
       });
     };
 
     // Initial setup
     handleResize();
-    setTimeout(triggerAnimations, 100);
+    setTimeout(() => {
+      handleScroll();
+    }, 100);
 
     // Event listeners
     window.addEventListener('resize', handleResize);

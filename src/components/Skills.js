@@ -77,9 +77,9 @@ const Skills = () => {
         <h2 className="section-title text-3xl font-bold mb-12 font-display">
           Technical Skills
         </h2>
-        <div className="grid grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-8 skills-grid">
           {skillCategories.map((category, categoryIndex) => (
-            <div key={categoryIndex} className="skill-category glassmorphism-card p-6">
+            <div key={categoryIndex} className="skill-category glassmorphism-card p-6 animate-on-scroll fade-in">
               <h3 className="text-lg font-bold text-green-400 mb-4">
                 {category.title}
               </h3>
@@ -87,7 +87,7 @@ const Skills = () => {
                 {category.skills.map((skill, skillIndex) => (
                   <div key={skillIndex}>
                     <div className="skill-item">
-                      {skill.name} <span>{skill.percentage}%</span>
+                      <span>{skill.name}</span> <span>{skill.percentage}%</span>
                     </div>
                     <div 
                       className="skill-progress" 
