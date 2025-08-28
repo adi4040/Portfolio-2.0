@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 // Keep phrases outside component to avoid re-creating array and breaking typing effect
 const TYPING_PHRASES = [
@@ -10,9 +10,10 @@ const TYPING_PHRASES = [
 
 const Hero = () => {
   const [displayText, setDisplayText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [phraseIndex, setPhraseIndex] = useState(0);
-  const [charIndex, setCharIndex] = useState(0);
+  const isDeletingRef = useRef(false);
+  const phraseIndexRef = useRef(0);
+  const charIndexRef = useRef(0);
+  const timerRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -23,34 +24,48 @@ const Hero = () => {
   }, []);
 
   useEffect(() => {
-    const typeEffect = () => {
-      const currentPhrase = TYPING_PHRASES[phraseIndex];
-      
-      if (isDeleting) {
-        setDisplayText(currentPhrase.substring(0, charIndex - 1));
-        setCharIndex(prev => prev - 1);
-      } else {
-        setDisplayText(currentPhrase.substring(0, charIndex + 1));
-        setCharIndex(prev => prev + 1);
+    // Robust typewriter that avoids StrictMode double-invoke glitches
+    const mounted = { current: true };
+
+    const tick = () => {
+      if (!mounted.current) return;
+
+      const currentPhrase = TYPING_PHRASES[phraseIndexRef.current];
+      const isDeleting = isDeletingRef.current;
+      let nextCharIndex = charIndexRef.current + (isDeleting ? -1 : 1);
+
+      // Clamp
+      nextCharIndex = Math.max(0, Math.min(currentPhrase.length, nextCharIndex));
+      charIndexRef.current = nextCharIndex;
+      setDisplayText(currentPhrase.substring(0, nextCharIndex));
+
+      let delay = isDeleting ? 35 : 85;
+
+      if (!isDeleting && nextCharIndex === currentPhrase.length) {
+        // Pause at end, then start deleting
+        delay = 1200;
+        isDeletingRef.current = true;
+      } else if (isDeleting && nextCharIndex === 0) {
+        // Move to next phrase and start typing
+        isDeletingRef.current = false;
+        phraseIndexRef.current = (phraseIndexRef.current + 1) % TYPING_PHRASES.length;
+        delay = 350; // small pause before typing next
       }
 
-      let typeSpeed = isDeleting ? 30 : 80; // Faster typing speeds
-      
-      if (!isDeleting && charIndex === currentPhrase.length) {
-        typeSpeed = 1500; // Reduced pause time
-        setIsDeleting(true);
-      } else if (isDeleting && charIndex === 0) {
-        setIsDeleting(false);
-        setPhraseIndex(prev => (prev + 1) % TYPING_PHRASES.length);
-      }
-
-      const timer = setTimeout(typeEffect, typeSpeed);
-      return () => clearTimeout(timer);
+      timerRef.current = setTimeout(tick, delay);
     };
 
-    const timer = setTimeout(typeEffect, 100);
-    return () => clearTimeout(timer);
-  }, [phraseIndex, charIndex, isDeleting]);
+    // Kick off
+    timerRef.current = setTimeout(tick, 200);
+
+    return () => {
+      mounted.current = false;
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, []);
 
   return (
     <section id="home" className="section-content min-h-screen flex items-center">
