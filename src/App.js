@@ -18,6 +18,7 @@ import Volunteering from './components/Volunteering';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import LeetCodeModal from './components/LeetCodeModal';
+import AchievementPhotoModal from './components/AchievementPhotoModal';
 import './App.css';
 
 function App() {
@@ -144,7 +145,7 @@ function App() {
 
   return (
     <div className="App">
-      <Background3D />
+      {/* <Background3D /> */}
       
       {/* Desktop Navigation */}
       {!isMobile && (
@@ -189,6 +190,7 @@ function App() {
         <Footer />
       </div>
       <LeetCodeModal />
+      <AchievementPhotoModal />
     </div>
   );
 }

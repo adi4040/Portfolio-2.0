@@ -27,6 +27,13 @@ const Achievements = () => {
             <p className="text-slate-400">
               Projectioum Leviosa Technical Symposium, JSPM Pune
             </p>
+            <button 
+              className="leetcode-stats-button" 
+              onClick={() => window.openAchievementPhotoModal && window.openAchievementPhotoModal('/achievement_jspm.jpg')}
+              style={{ marginTop: '0.75rem' }}
+            >
+              View Photo
+            </button>
           </div>
 
           <div className="achievement-card glassmorphism-card animate-on-scroll fade-in">

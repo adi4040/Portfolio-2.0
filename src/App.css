@@ -7,6 +7,30 @@
   margin: 0 auto;
 }
 
+/* Mobile: glassmorphism right under section titles */
+@media (max-width: 768px) {
+  .section-content .container .section-title + *:not(.glassmorphism-card) {
+    background: rgba(20, 20, 30, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(100, 255, 218, 0.15);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-content .container .section-title + *:not(.glassmorphism-card) {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .section-content .container .section-title + *:not(.glassmorphism-card) {
+    padding: 0.75rem;
+  }
+}
+
 /* Utility classes */
 .min-h-screen {
   min-height: 100vh;
@@ -170,6 +194,33 @@
 
 .space-y-4 > * + * {
   margin-top: 1rem;
+}
+
+/* Ensure two skill blocks per row on laptops (override utilities) */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .grid.skills-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Final Skills grid enforcement placed at end for precedence */
+@media (min-width: 769px) {
+  .grid.skills-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid.skills-grid {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+  }
+}
+
+/* Laptop: ensure two skill blocks per row */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 /* Grid utilities */

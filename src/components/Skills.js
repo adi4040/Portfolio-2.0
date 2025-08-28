@@ -77,7 +77,7 @@ const Skills = () => {
         <h2 className="section-title text-3xl font-bold mb-12 font-display">
           Technical Skills
         </h2>
-        <div className="grid grid-cols-1 gap-8 skills-grid">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 skills-grid">
           {skillCategories.map((category, categoryIndex) => (
             <div key={categoryIndex} className="skill-category glassmorphism-card p-6 animate-on-scroll fade-in">
               <h3 className="text-lg font-bold text-green-400 mb-4">
