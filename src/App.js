@@ -145,7 +145,7 @@ function App() {
 
   return (
     <div className="App">
-      {/* <Background3D /> */}
+      <Background3D />
       
       {/* Desktop Navigation */}
       {!isMobile && (
