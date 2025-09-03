@@ -69,64 +69,27 @@ const LeetCodeModal = () => {
     setError(null);
 
     try {
-      // Try multiple API endpoints for better reliability
-      const endpoints = [
-        `https://leetcode-stats-api.herokuapp.com/${LEETCODE_CONFIG.username}`,
-        `https://competitive-coding-api.herokuapp.com/api/leetcode/${LEETCODE_CONFIG.username}`,
-        `https://leetcodestats.cyclic.app/${LEETCODE_CONFIG.username}`
-      ];
-
-      let data = null;
-      let lastError = null;
-
-      for (const endpoint of endpoints) {
-        try {
-          console.log(`Trying endpoint: ${endpoint}`);
-          const response = await fetch(endpoint, {
-            method: 'GET',
-            headers: {
-              'Accept': 'application/json',
-            },
-            timeout: 10000
-          });
-          
-          if (!response.ok) {
-            throw new Error(`API returned ${response.status}`);
-          }
-          
-          data = await response.json();
-          
-          // Check if data is valid
-          if (data && (data.status === 'Success' || data.status === 'success' || data.totalSolved !== undefined)) {
-            console.log('Successfully fetched data from:', endpoint);
-            break;
-          } else {
-            throw new Error('Invalid data format');
-          }
-        } catch (err) {
-          console.log(`Failed to fetch from ${endpoint}:`, err.message);
-          lastError = err;
-          continue;
-        }
+      const isLocal = typeof window !== 'undefined' && window.location.hostname === 'localhost' && window.location.port === '3000';
+      const base = isLocal ? 'http://localhost:8888' : '';
+      const url = `${base}/.netlify/functions/leetcode?username=${encodeURIComponent(LEETCODE_CONFIG.username)}`;
+      const response = await fetch(url, { method: 'GET', headers: { 'Accept': 'application/json' } });
+      if (!response.ok) {
+        const errJson = await response.json().catch(() => ({}));
+        throw new Error(errJson.error || `Proxy returned ${response.status}`);
       }
 
-      if (data) {
-        // Normalize data format
-        const normalizedData = {
-          totalSolved: data.totalSolved || 0,
-          easySolved: data.easySolved || 0,
-          mediumSolved: data.mediumSolved || 0,
-          hardSolved: data.hardSolved || 0,
-          ranking: data.ranking || 'N/A',
-          contributionPoints: data.contributionPoints || 0,
-          reputation: data.reputation || 0
-        };
-        
-        console.log('LeetCodeModal: Normalized data:', normalizedData);
-        setLeetcodeData(normalizedData);
-      } else {
-        throw lastError || new Error('All API endpoints failed');
-      }
+      const data = await response.json();
+      const normalizedData = {
+        totalSolved: data.totalSolved || 0,
+        easySolved: data.easySolved || 0,
+        mediumSolved: data.mediumSolved || 0,
+        hardSolved: data.hardSolved || 0,
+        ranking: data.ranking || 'N/A',
+        contributionPoints: data.contributionPoints || 0,
+        reputation: data.reputation || 0
+      };
+
+      setLeetcodeData(normalizedData);
     } catch (err) {
       console.error('Error fetching LeetCode data:', err);
       setError(err.message || 'Failed to fetch data from all endpoints');
