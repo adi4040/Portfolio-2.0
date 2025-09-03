@@ -19,6 +19,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import LeetCodeModal from './components/LeetCodeModal';
 import AchievementPhotoModal from './components/AchievementPhotoModal';
+import MobileNotice from './components/MobileNotice';
 import './App.css';
 
 function App() {
@@ -173,6 +174,7 @@ function App() {
       
       <div className={`main-content-wrapper ${isNavCollapsed && !isMobile ? 'nav-collapsed' : ''}`}>
         <main className="relative z-10">
+          {isMobile && <MobileNotice />}
           <Hero />
           <About />
           <Experience />
