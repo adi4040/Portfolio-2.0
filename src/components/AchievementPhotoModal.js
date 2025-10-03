@@ -83,7 +83,10 @@ const AchievementPhotoModal = () => {
           alt="Achievement"
           style={{
             maxWidth: '100%',
+            maxHeight: 'calc(100vh - 220px)',
             height: 'auto',
+            width: 'auto',
+            objectFit: 'contain',
             borderRadius: '12px',
             border: '1px solid rgba(100, 255, 218, 0.2)'
           }}

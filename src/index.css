@@ -1641,6 +1641,22 @@ body {
     padding: 1.5rem;
     text-align: center;
     transition: all 0.3s ease;
+    position: relative;
+}
+
+.achievement-tag {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    padding: 4px 10px;
+    background: rgba(100, 255, 218, 0.15);
+    color: var(--primary-color);
+    border: 1px solid rgba(100, 255, 218, 0.35);
+    border-radius: 9999px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
 }
 
 .achievement-icon {

@@ -37,6 +37,26 @@ const Achievements = () => {
           </div>
 
           <div className="achievement-card glassmorphism-card animate-on-scroll fade-in">
+            <span className="achievement-tag">Solo participation</span>
+            <div className="achievement-icon gold">
+              <i className="fas fa-trophy"></i>
+            </div>
+            <h3 className="text-lg font-bold text-slate-200">
+              2nd runner up - Agentic AI Hackathon
+            </h3>
+            <p className="text-slate-400">
+              AIMSS (VIT, Bibwewadi)
+            </p>
+            <button 
+              className="leetcode-stats-button" 
+              onClick={() => window.openAchievementPhotoModal && window.openAchievementPhotoModal('/achievement_aimss.jpg')}
+              style={{ marginTop: '0.75rem' }}
+            >
+              View Photo
+            </button>
+          </div>
+
+          <div className="achievement-card glassmorphism-card animate-on-scroll fade-in">
             <div className="achievement-icon silver">
               <i className="fas fa-medal"></i>
             </div>
@@ -73,3 +93,6 @@ const Achievements = () => {
 };
 
 export default Achievements;
+
+
+// In the acheivements and awards section, after the "1st Place - Software Domain Projectioum Leviosa Technical Symposium, JSPM Pune" section, add the same section ,as it but change the title to "2nd runner up - Agentic AI Hackathon , AIMSS (VIT, Bibwewadi)", this section should also contain the button for "View photo" with everything same as the 1st session
